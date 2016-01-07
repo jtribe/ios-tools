@@ -71,7 +71,7 @@ function parse_params() {
     esac
   done
   if [[ -z $destination ]]; then
-    destination=$DESTINATION
+    destination=$TEST_DESTINATION
   fi
 }
 

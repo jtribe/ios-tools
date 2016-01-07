@@ -15,7 +15,7 @@ and the various components.
 - iOS Simulator 9.0
 - xcpretty - this will typically be installed from the project's Gemfile
 
-Add a build step called "Set Bundle Version" that runs the script `bin/xcode/bundle-version.sh`
+Add a build step called "Set Bundle Version" that runs the script `bin/xcode/bundle-version.sh` (usually `$SRCROOT/bin/xcode/bundle-version.sh`)
 
 The Bundle Versions are based on git commits (see `xcode/bundle-version.sh`). You can work out the
 commit for a Bundle Version by entering it into the following command:
@@ -24,7 +24,13 @@ commit for a Bundle Version by entering it into the following command:
 git log `git rev-list origin/master | awk "NR == $bundle_version"`
 ```
 
-## CI Setup
+## Setup
+
+Add this repo as a submodule to your project:
+
+```bash
+git submodule add --name ios-tools git@github.com:jtribe/ios-tools.git bin/
+```
 
 Add `.config.sh` and a `config/` directory to your project, see below for details.
 
@@ -42,12 +48,12 @@ export PROJECT="MyAwesomeProject"
 export WORKSPACE="$PROJECT.xcworkspace"
 export TEST_SCHEME="${PROJECT}Tests"
 export UI_TEST_SCHEME="${PROJECT}UITests"
-export DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.0"
+export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.0"
 ```
 
 ### `config/` directory
 
-The following files should be created in the `config/` directory. The `.p12` files can be exported from your Keychain.
+The following files should be created in the `config/` directory. The certificates The `.p12` files can be exported from your Keychain.
 
 - _iOS Developer_ certificate and private key in `developer.cer` and `developer.p12`
 - _iOS Distribution_ certificate and private key in `distribution.cer` and `distribution.p12`
