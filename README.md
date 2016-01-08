@@ -27,7 +27,7 @@ These steps only need to be performed once, developers simply need to run `./bin
 sudo gem install gemrat
 git submodule add git@github.com:jtribe/ios-tools.git bin
 touch Gemfile .config.sh
-gemrat xcpretty gym deliver match
+gemrat --pessimistic xcpretty gym deliver match
 bundle install
 ```
 
