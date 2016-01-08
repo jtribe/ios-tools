@@ -81,9 +81,12 @@ machine:
   xcode:
     version: '7.2'
 dependencies:
-  pre:
+  post:
     - ./bin/execute.sh ci-setup
     - security find-identity -p codesigning
+checkout:
+  post:
+    - git submodule update --init
 test:
   override:
     - ./bin/execute.sh test
@@ -94,6 +97,11 @@ deployment:
       - git fetch --unshallow # this is required for bundle-version.sh because CircleCI uses a shallow clone
       - ./bin/execute.sh itunes-connect
 ```
+
+#### Submodules
+
+In order for CircleCI to be able to access this repo as a submodule, you will need to [add a "user key"
+to the Project Settings on CircleCI](https://circleci.com/docs/external-resources)
 
 ### Travis CI setup
 
