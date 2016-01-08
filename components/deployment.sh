@@ -2,21 +2,24 @@ function itunes_connect() {
   comp_init 'itunes_connect'
   check_deps 'bundle'
 
-  export FASTLANE_PASSWORD="$ITC_PASSWORD"
-
   msg "Building archive"
   clean_build=''
   if [[ -n $clean ]]; then
     clean_build='--clean'
   fi
+  if [[ "$WORKSPACE" ]]; then
+    workspace="--workspace '$WORKSPACE'"
+  fi
   bundle exec gym build \
-    --workspace "$WORKSPACE" \
+    $workspace \
     --scheme "$SCHEME" \
     $clean_build
 
   msg "Submitting to iTunes Connect"
   bundle exec deliver run \
-    --app_identifier $BUNDLE_IDENTIFIER \
-    --username $ITC_USER \
+    --app_identifier "$BUNDLE_IDENTIFIER" \
+    --username "$ITC_USER" \
     --force true
+
+  comp_deinit
 }

@@ -24,6 +24,7 @@ white='\033[36m'
 function script_usage() {
   echo -n "Usage:
   Available tasks:
+    setup                           Initial setup of development environment
     update                          Update the $PROJECT installation
       -ng|--no-git                    Skip updating Git repository
     test|unit-tests|ui-tests        Run all tests/unit tests/ui tests
@@ -76,7 +77,9 @@ function parse_params() {
 }
 
 function run_task() {
-  if [[ $task = 'update' ]]; then
+  if [[ $task = 'setup' ]]; then
+    setup
+  elif [[ $task = 'update' ]]; then
     update
   elif [[ $task = 'test' ]]; then
     unit_tests \
