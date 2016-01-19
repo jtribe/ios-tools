@@ -17,23 +17,27 @@ and the various components.
 ## Prerequisites
 
 - Xcode
-- Bundler: `sudo gem install bundler`
+- `sudo gem install bundler gemrat`
+
+If you're using Mac OS 10.11 "El Capitan" you may want to install Ruby using Homebrew to avoid
+permissions issues with `/usr/bin`. You can do this using `brew install ruby` (you might need to
+open a new shell session too).
 
 ## Installation
 
 These steps only need to be performed once, developers simply need to run `./bin/execute.sh setup`.
 
 ```bash
-sudo gem install gemrat
 git submodule add git@github.com:jtribe/ios-tools.git bin
-touch Gemfile .config.sh
+touch .config.sh
+bundle init
 gemrat --pessimistic xcpretty gym deliver match
-bundle install
+bundle exec match development
+bundle exec match appstore
 ```
 
 - Use Xcode to add a Build Phase called "Set Bundle Version" that runs the script `bin/xcode/bundle-version.sh`
   (see [below](#bundle-versions) for more info)
-- Add `.config.sh` and a `config/` directory to your project (see [below](#configsh) for more info)
 
 ## Developer Setup
 
@@ -80,6 +84,8 @@ A typical `circle.yml` setup is as follows.
 machine:
   xcode:
     version: '7.2'
+  ruby:
+    version: 2.0.0-p645
 dependencies:
   post:
     - ./bin/execute.sh ci-setup
