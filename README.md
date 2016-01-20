@@ -28,7 +28,7 @@ open a new shell session too).
 These steps only need to be performed once, developers simply need to run `./bin/execute.sh setup`.
 
 ```bash
-git submodule add git@github.com:jtribe/ios-tools.git bin
+git submodule add https://github.com/jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
 gemrat --pessimistic xcpretty gym deliver match
