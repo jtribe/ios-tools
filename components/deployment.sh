@@ -2,6 +2,9 @@ function itunes_connect() {
   comp_init 'itunes_connect'
   check_deps 'bundle'
 
+  bundle exec match appstore --readonly --verbose
+  security find-identity -p codesigning
+
   msg "Building archive"
   clean_build=''
   if [[ -n $clean ]]; then

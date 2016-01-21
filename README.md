@@ -84,12 +84,6 @@ A typical `circle.yml` setup is as follows.
 machine:
   xcode:
     version: '7.2'
-  ruby:
-    version: 2.0.0-p645
-dependencies:
-  post:
-    - ./bin/execute.sh ci-setup
-    - security find-identity -p codesigning
 checkout:
   post:
     - git submodule update --init

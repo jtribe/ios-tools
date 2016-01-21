@@ -33,7 +33,6 @@ function script_usage() {
     carthage                        Run carthage bootstrap
     carthage-update                 Run carthage update
     pods                            Run pod update
-    ci-setup                        Setup Keychain and provisioning profiles
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
 
@@ -94,8 +93,6 @@ function run_task() {
     carthage_bootstrap
   elif [[ $task = 'carthage-update' ]]; then
     carthage_update
-  elif [[ $task = 'ci-setup' ]]; then
-    ci_setup
   elif [[ $task = 'clean' ]]; then
     clean
   elif [[ $task = 'itunes-connect' ]]; then
