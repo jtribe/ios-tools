@@ -78,6 +78,7 @@ checkout:
 test:
   override:
     - ./bin/execute.sh test
+    - mv build/reports/* $CIRCLE_TEST_REPORTS
 deployment:
   itunes_connect:
     branch: release
