@@ -35,7 +35,7 @@ These steps only need to be performed once, developers simply need to run `./bin
 git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
-gemrat --pessimistic xcpretty gym deliver match
+gemrat --pessimistic cocoapods xcpretty gym deliver match
 ```
 
 Developers can initially use the _Don't Code Sign_ option for the Code Signing Identity in the
@@ -51,7 +51,7 @@ export PROJECT="MyAwesomeProject"
 export SCHEME="$PROJECT"
 export TEST_SCHEME="${PROJECT}Tests"
 export UI_TEST_SCHEME="${PROJECT}UITests"
-export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.0"
+export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="user@domain.com" # iTunes Connect User
@@ -65,8 +65,8 @@ export ITC_USER="user@domain.com" # iTunes Connect User
 
 ## CircleCI Configuration
 
-In CircleCI, enable builds for the project, and then push a build with a `circle.yml` file. A typical
-`circle.yml` setup is as follows.
+Add a `circle.yml` file to the root directory of the project. A typical `circle.yml` setup is as
+follows.
 
 ```yaml
 machine:
@@ -87,8 +87,9 @@ deployment:
       - ./bin/execute.sh itunes-connect
 ```
 
-In order for CircleCI to be able to fetch this repo (ios-tools) as a submodule, you will need to
-[add a "user key" to the Project Settings on CircleCI](https://circleci.com/docs/external-resources).
+Now go to CircleCI and enable builds for the project. In order for CircleCI to be able to fetch this
+repo (ios-tools) as a submodule, you will need to [add a "user key" to the Project
+Settings](https://circleci.com/docs/external-resources).
 
 ## Code Signing and Continuous Deployment
 
