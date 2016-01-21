@@ -30,5 +30,5 @@ function run_tests() {
       -sdk iphonesimulator \
       -destination "$destination" \
       $clean_build test \
-    | bundle exec xcpretty
+    | bundle exec xcpretty $XCPRETTY_OUTPUT
 }

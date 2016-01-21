@@ -38,13 +38,16 @@ bundle init
 gemrat --pessimistic xcpretty gym deliver match
 ```
 
+Developers can initially use the _Don't Code Sign_ option for the Code Signing Identity in the
+Build Settings to be able to run the app on their devices during development.
+
 ### `.config.sh`
 
 This file defines several variables that are used in these scripts.
 
 ```sh
 export PROJECT="MyAwesomeProject"
-export WORKSPACE="$PROJECT.xcworkspace" # Leave this empty if a workspace is not required
+# export WORKSPACE="$PROJECT.xcworkspace" # Un-comment if a workspace should be used
 export SCHEME="$PROJECT"
 export TEST_SCHEME="${PROJECT}Tests"
 export UI_TEST_SCHEME="${PROJECT}UITests"
@@ -86,7 +89,7 @@ deployment:
 In order for CircleCI to be able to fetch this repo (ios-tools) as a submodule, you will need to
 [add a "user key" to the Project Settings on CircleCI](https://circleci.com/docs/external-resources).
 
-## Continuous Deployment
+## Code Signing and Continuous Deployment
 
 We use the Fastlane tool [match](https://github.com/fastlane/match) to handle provisioning profiles
 and code signing. See the [usage docs](https://github.com/fastlane/match#usage) for more information.
