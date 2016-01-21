@@ -6,10 +6,12 @@ function unit_tests() {
 }
 
 function ui_tests() {
-  comp_init 'tests'
-  msg 'Running UI tests'
-  run_tests "$UI_TEST_SCHEME"
-  comp_deinit
+  if [[ -n $UI_TEST_SCHEME ]]; then
+    comp_init 'tests'
+    msg 'Running UI tests'
+    run_tests "$UI_TEST_SCHEME"
+    comp_deinit
+  fi
 }
 
 function run_tests() {
