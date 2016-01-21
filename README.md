@@ -1,9 +1,13 @@
 # iOS Scripting Tools
 
-These tools handle several common iOS scripting tasks, such as developer environment setup, CI and
-deployment to iTunes Connect.
+These tools handle several common iOS scripting tasks, such as:
 
-They are implemented using a simple scripting framework in `bin/execute.sh` which provides access
+- Developer environment setup
+- CI
+- Certificates and provisioning profiles (using Fastlane [match](https://github.com/fastlane/match))
+- Deployment to iTunes Connect.
+
+Most functions are accessed using a simple scripting framework in `bin/execute.sh` that provides access
 to the functions in `bin/components`.
 
 - Run `bin/setup.sh` to setup your dev environment
@@ -17,7 +21,7 @@ and the various components.
 ## Prerequisites
 
 - Xcode
-- `sudo gem install bundler gemrat`
+- `gem install bundler gemrat`
 
 If you're using Mac OS 10.11 "El Capitan" you may want to install Ruby using Homebrew to avoid
 permissions issues with `/usr/bin`. You can do this using `brew install ruby` (you might need to
@@ -28,29 +32,11 @@ open a new shell session too).
 These steps only need to be performed once, developers simply need to run `./bin/execute.sh setup`.
 
 ```bash
-git submodule add https://github.com/jtribe/ios-tools.git bin
+git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
 gemrat --pessimistic xcpretty gym deliver match
-bundle exec match development
-bundle exec match appstore
 ```
-
-- Use Xcode to add a Build Phase called "Set Bundle Version" that runs the script `bin/xcode/bundle-version.sh`
-  (see [below](#bundle-versions) for more info)
-
-## Developer Setup
-
-```bash
-./bin/execute.sh setup
-```
-
-## CI Setup
-
-Add the following environment variables in the CI setup:
-
-- `MATCH_PASSWORD`: the passphrase for the [match](https://github.com/fastlane/match) repository
-- `FASTLANE_PASSWORD`: the password for the iTunes Connect Account (for the `ITC_USER` specified in `.config.sh`)
 
 ### `.config.sh`
 
@@ -68,17 +54,16 @@ export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="user@domain.com" # iTunes Connect User
 ```
 
-### ?? `config/` directory
+## Developer Setup
 
-The following files should be created in the `config/` directory. The certificates The `.p12` files can be exported from your Keychain.
+```bash
+./bin/execute.sh setup
+```
 
-- _iOS Developer_ certificate and private key in `developer.cer` and `developer.p12`
-- _iOS Distribution_ certificate and private key in `distribution.cer` and `distribution.p12`
-- All required provisioning profiles should be added to the `config/profiles/` directory
+## CircleCI Configuration
 
-### CircleCI Configuration
-
-A typical `circle.yml` setup is as follows.
+In CircleCI, enable builds for the project, and then push a build with a `circle.yml` file. A typical
+`circle.yml` setup is as follows.
 
 ```yaml
 machine:
@@ -98,30 +83,72 @@ deployment:
       - ./bin/execute.sh itunes-connect
 ```
 
-#### Submodules
+In order for CircleCI to be able to fetch this repo (ios-tools) as a submodule, you will need to
+[add a "user key" to the Project Settings on CircleCI](https://circleci.com/docs/external-resources).
 
-In order for CircleCI to be able to access this repo as a submodule, you will need to [add a "user key"
-to the Project Settings on CircleCI](https://circleci.com/docs/external-resources)
+## Continuous Deployment
 
-### Travis CI setup
+We use the Fastlane tool [match](https://github.com/fastlane/match) to handle provisioning profiles
+and code signing. See the [usage docs](https://github.com/fastlane/match#usage) for more information.
 
-A typical `.travis.yml` setup is as follows.
+> If you're not familiar with this tool then visit [codesigning.guide](https://codesigning.guide/)
+to understand the rationale behind this approach.
 
-```yaml
-osx_image: xcode7
-language: objective-c
-xcode_workspace: nxgen-ios.xcworkspace
-xcode_scheme: nxgen-iosTests
-before_install:
-  - curl -L -O https://github.com/Carthage/Carthage/releases/download/0.9.3/Carthage.pkg
-  - sudo installer -pkg Carthage.pkg -target /
-before_script:
-  - ./bin/execute.sh ci-setup
-  - security find-identity -p codesigning
-  - ./bin/execute.sh carthage
-script:
-  - ./bin/execute.sh unit-tests
-```
+### Configure Apple Services
+
+- Ensure that an Apple ID has been created that will be used for the app
+	- If it will be released by jtribe then use `armin@jtribe.com.au`
+	- Otherwise the client will need to set up the following services and send us the Apple ID and password:
+		- https://developer.apple.com/membercenter/
+			- Enrol in the _Apple Developer Program_ (this costs $149 per year)
+		- https://itunesconnect.apple.com/
+	- Record the Apple ID in the project README.md
+	  ([example](https://github.com/jtribe/bwf-ios/blob/master/README.md)) and store the password in
+		our password tool using a Login item named e.g. "BWF Apple ID"
+- Create the App in Dev Center and iTunes Connect
+	- You can either use the Fastlane `produce` tool or do this manually through the browser. If you use `produce` then
+    you'll need to specify `--company_name` if it's the first app for the Apple ID.
+
+### Create Certificates and Provisioning Profiles
+
+- `bundle exec match init` to set up the certificates repo and create the `Matchfile`
+  - This will ask you for a Git repository for the certs, there should be one per client. Create a
+    private repo if one doesn't already exist.
+  - Enter an HTTP URL for the Git repository (because most of our devs don't use SSH keys for Gihub)
+- Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
+  - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
+- `bundle exec match development` to create the Debug certificate
+	- This will add devices to the provisioning profile, however this fails if none exist. So [add your
+    device](#adding-devices) to the Dev Center, but you can skip adding it to the provisioning profile
+		because `bundle exec match development` will do this
+  - Store the passphrase in our password tool using a Password item named e.g. "BWF Certificates Passphrase"
+- `bundle exec match appstore` to create the Distribution certificate
+
+### Configure the Xcode Project
+
+- In Xcode
+	- Go to Preferences > Accounts and add an account using the Apple ID (this is only required on setup)
+	- Go to the General > Identity in your project's main target and select the Team
+  - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
+    the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
+  - Go to Build Settings > Code Signing
+  	- Set the Provisioning Profiles for Debug and Release to the created Development and AppStore profiles
+  	- Set the Code Signing Identity for Debug and Release to the identities from the selected profiles
+
+#### CI Setup
+
+Add the following environment variables in the CI setup:
+
+- `MATCH_PASSWORD`: the passphrase for the [match](https://github.com/fastlane/match) repository
+- `FASTLANE_PASSWORD`: the password for the iTunes Connect Account (for the `ITC_USER` specified in `.config.sh`)
+
+### Adding Devices
+
+- Login to the Developer Center
+- Go to Devices > All and click the add button
+- You can get the UDID of your device using Xcode by plugging it in and going to Window > Devices
+- If the development provisioning profile has already been created, then you'll need to add this
+	device to it using `match development --force`
 
 ## Bundle Versions
 

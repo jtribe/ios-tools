@@ -18,16 +18,17 @@ function run_tests() {
   check_deps 'xcodebuild' 'xcpretty'
   cd "$project_dir"
 
-  clean_build=''
   if [[ -n $clean ]]; then
     clean_build='clean'
   fi
-  xcpretty_args="$XCPRETTY_OUTPUT"
+  if [[ -n $WORKSPACE ]]; then
+    workspace="-workspace '$WORKSPACE'"
+  fi
   xcodebuild \
-      -workspace "$WORKSPACE" \
+      $workspace \
       -scheme "$scheme" \
       -sdk iphonesimulator \
       -destination "$destination" \
       $clean_build test \
-    | bundle exec xcpretty $xcpretty_args
+    | bundle exec xcpretty
 }
