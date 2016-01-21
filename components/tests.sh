@@ -22,7 +22,7 @@ function run_tests() {
     clean_build='clean'
   fi
   if [[ -n $WORKSPACE ]]; then
-    workspace="-workspace '$WORKSPACE'"
+    workspace="-workspace $WORKSPACE"
   fi
   xcodebuild \
       $workspace \
