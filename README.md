@@ -108,7 +108,7 @@ to understand the rationale behind this approach.
 			- Enrol in the _Apple Developer Program_ (this costs $149 per year)
 		- https://itunesconnect.apple.com/
 	- Record the Apple ID in the project README.md
-	  ([example](https://github.com/jtribe/bwf-ios/blob/master/README.md)) and store the password in
+	  ([example](https://github.com/jtribe/whispir-ios/blob/master/README.md)) and store the password in
 		our password tool using a Login item named e.g. "BWF Apple ID"
 - Create the App in Dev Center and iTunes Connect
 	- You can either use the Fastlane `produce` tool or do this manually through the browser. If you use `produce` then
