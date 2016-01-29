@@ -121,7 +121,7 @@ to understand the rationale behind this approach.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for a Git repository for the certs, there should be one per client. Create a
-    private repo if one doesn't already exist.
+    private repo (typically using our Bitbucket account) if one doesn't already exist.
   - Enter an HTTP URL for the Git repository (because most of our devs don't use SSH keys for Gihub)
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
