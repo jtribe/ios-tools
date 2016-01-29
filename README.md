@@ -38,8 +38,11 @@ bundle init
 gemrat --pessimistic cocoapods xcpretty gym deliver match
 ```
 
-Developers can initially use the _Don't Code Sign_ option for the Code Signing Identity in the
-Build Settings to be able to run the app on their devices during development.
+In order to run on their devices before the provisioning profiles have been created:
+
+- Open the project settings in Xcode
+- In the _General_ tab select _None_ in the Team dropdown
+- In _Build Settings > Code Signing_ select _Don't Code Sign_ option for _Debug_ and _iOS Developer_ for _Any iOS SDK_
 
 ### `.config.sh`
 
