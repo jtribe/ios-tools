@@ -113,6 +113,7 @@ to understand the rationale behind this approach.
 	- Record the Apple ID in the project README.md
 	  ([example](https://github.com/jtribe/whispir-ios/blob/master/README.md)) and store the password in
 		our password tool using a Login item named e.g. "BWF Apple ID"
+  - The iTunes Connect user will need to have _App Manager_ permission
 - Create the App in Dev Center and iTunes Connect
 	- You can either use the Fastlane `produce` tool or do this manually through the browser. If you use `produce` then
     you'll need to specify `--company_name` if it's the first app for the Apple ID.
@@ -120,8 +121,14 @@ to understand the rationale behind this approach.
 ### Create Certificates and Provisioning Profiles
 
 - Create a private Git repository (typically using our Bitbucket account) for storing the encrypted certificates and provisioning profiles, there should be one per client
+  - Add an SSH key that can be used by CI to access the repository:
+    ```
+    ssh-keygen -f temp-key
+    cat temp.pub | pbcopy # add this to BitBucket in project settings > Deployment keys
+    cat temp | pbcopy # add this to CircleCi in project settings > SSH Permissions (hostname: `bitbucket.org`)
+    ```
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
-  - This will ask you for the URL to the Git repository for the certs
+  - This will ask you for the URL to the Git repository for the certs - make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
@@ -137,6 +144,7 @@ to understand the rationale behind this approach.
 - In Xcode
 	- Go to Preferences > Accounts and add an account using the Apple ID (this is only required on setup)
 	- Go to the General > Identity in your project's main target and select the Team
+    - The Version must be a period-separated list of at most three non-negative integers
   - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
     the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
   - Go to Build Settings > Code Signing
@@ -145,6 +153,7 @@ to understand the rationale behind this approach.
 
 #### CI Setup
 
+- Go to
 Add the following environment variables in the CI setup:
 
 - `MATCH_PASSWORD`: the passphrase for the [match](https://github.com/fastlane/match) repository

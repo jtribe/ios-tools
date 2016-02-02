@@ -1,5 +1,5 @@
 function itunes_connect() {
-  comp_init 'itunes_connect'
+  comp_init 'itunes-connect'
   check_deps 'bundle'
 
   bundle exec match appstore --readonly --verbose
@@ -11,7 +11,7 @@ function itunes_connect() {
     clean_build='--clean'
   fi
   if [[ "$WORKSPACE" ]]; then
-    workspace="--workspace '$WORKSPACE'"
+    workspace="--workspace $WORKSPACE"
   fi
   bundle exec gym build \
     $workspace \
