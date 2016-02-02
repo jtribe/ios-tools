@@ -31,7 +31,7 @@ open a new shell session too).
 
 These steps only need to be performed once, developers simply need to run `./bin/execute.sh setup`.
 
-```bash
+```sh
 git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
@@ -119,10 +119,9 @@ to understand the rationale behind this approach.
 
 ### Create Certificates and Provisioning Profiles
 
+- Create a private Git repository (typically using our Bitbucket account) for storing the encrypted certificates and provisioning profiles, there should be one per client
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
-  - This will ask you for a Git repository for the certs, there should be one per client. Create a
-    private repo (typically using our Bitbucket account) if one doesn't already exist.
-  - Enter an HTTP URL for the Git repository (because most of our devs don't use SSH keys for Gihub)
+  - This will ask you for the URL to the Git repository for the certs
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
@@ -134,6 +133,7 @@ to understand the rationale behind this approach.
 
 ### Configure the Xcode Project
 
+- You might need to restart Xcode (seriously!) or run `bundle exec match development` and `bundle exec match appstore` again
 - In Xcode
 	- Go to Preferences > Accounts and add an account using the Apple ID (this is only required on setup)
 	- Go to the General > Identity in your project's main target and select the Team
