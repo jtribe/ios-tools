@@ -82,7 +82,9 @@ checkout:
   post:
     - git submodule update --init
 dependencies:
+  # we override dependencies so that we use `bundle exec pod install` (CircleCI runs `pod install`)
   override:
+    - bundle install
     - ./bin/execute.sh pods
     - ./bin/execute.sh carthage
 test:
