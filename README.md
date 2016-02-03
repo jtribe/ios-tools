@@ -10,8 +10,8 @@ These tools handle several common iOS scripting tasks, such as:
 Most functions are accessed using a simple scripting framework in `bin/execute.sh` that provides access
 to the functions in `bin/components`.
 
-- Run `bin/setup.sh` to setup your dev environment
 - Run `bin/execute.sh` for usage
+- Run `bin/execute.sh setup` to setup your dev environment
 - Run `bin/update.sh` to update the project dependencies
 - Run `bin/git-update.sh` to pull changes from upstream and update the project dependencies
 
@@ -60,7 +60,7 @@ export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="user@domain.com" # iTunes Connect User
 ```
 
-You will need to share the schemes for `$SCHEME` and `$UI_TEST_SCHEME` (if used) in Xcode so that
+You will need to share each of these schemes in Xcode so that
 these are available on CI. In Xcode, go to _Manage Schemes_ and select _Shared_ for each.
 
 ## Developer Setup
@@ -149,14 +149,14 @@ You will need to have a _certificates repository_ for storing the encrypted cert
 - In Xcode
 	- Go to Preferences > Accounts and add an account using the Apple ID (this is only required on setup)
 	- Go to the General > Identity in your project's main target and select the Team
-    - The Version must be a period-separated list of at most three non-negative integers
+    - The Version must be "a period-separated list of at most three non-negative integers"
   - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
     the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
   - Go to Build Settings > Code Signing
   	- Set the Provisioning Profiles for Debug and Release to the created Development and AppStore profiles
   	- Set the Code Signing Identity for Debug and Release to the identities from the selected profiles
 
-#### CI Setup
+### CI Setup
 
 Add the following environment variables in the CI setup:
 
