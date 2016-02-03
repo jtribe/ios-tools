@@ -82,7 +82,7 @@ checkout:
   post:
     - git submodule update --init
 dependencies:
-  # we override dependencies so that we use `bundle exec pod install` (CircleCI runs `pod install`)
+  # we override dependencies because CircleCI doesn't use `bundle exec` when calling `pod install`
   override:
     - bundle install
     - ./bin/execute.sh pods
@@ -130,15 +130,10 @@ to understand the rationale behind this approach.
 
 ### Create Certificates and Provisioning Profiles
 
-- Create a private Git repository (typically using our Bitbucket account) for storing the encrypted certificates and provisioning profiles, there should be one per client
-  - Add an SSH key that can be used by CI to access the repository:
-    ```
-    ssh-keygen -f temp-key
-    cat temp.pub | pbcopy # add this to BitBucket in project settings > Deployment keys
-    cat temp | pbcopy # add this to CircleCi in project settings > SSH Permissions (hostname: `bitbucket.org`)
-    ```
+You will need to have a _certificates repository_ for storing the encrypted certificates and provisioning profiles. There should be one of these per client, and it's separate to the repo for the project. If one doesn't already exist then you should create one, typically using our Bitbucket account.
+
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
-  - This will ask you for the URL to the Git repository for the certs - make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
+  - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
@@ -163,11 +158,22 @@ to understand the rationale behind this approach.
 
 #### CI Setup
 
-- Go to
 Add the following environment variables in the CI setup:
 
 - `MATCH_PASSWORD`: the passphrase for the [match](https://github.com/fastlane/match) repository
 - `FASTLANE_PASSWORD`: the password for the iTunes Connect Account (for the `ITC_USER` specified in `.config.sh`)
+
+Create an SSH key pair that can be used by CI to access the certificates repository:
+
+```sh
+# generate a new SSH key pair (no passphrase is required)
+ssh-keygen -f temp-key
+# add the public key to BitBucket in the project settings > Deployment keys
+cat temp-key.pub
+# add the private key to CircleCI in the project settings > SSH Permissions
+cat temp-key
+rm temp-key temp-key.pub
+```
 
 ### Adding Devices
 
