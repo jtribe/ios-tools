@@ -32,6 +32,5 @@ function carthage_update() {
 }
 
 function run_carthage() {
-  carthage $@ \
-    --platform iOS
+  carthage $@ --platform iOS
 }

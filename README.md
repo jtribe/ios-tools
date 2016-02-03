@@ -50,15 +50,18 @@ This file defines several variables that are used in these scripts.
 
 ```sh
 export PROJECT="MyAwesomeProject"
-# export WORKSPACE="$PROJECT.xcworkspace" # Un-comment if a workspace should be used
+# export WORKSPACE="$PROJECT.xcworkspace" # Comment this out for no workspace
 export SCHEME="$PROJECT"
 export TEST_SCHEME="${PROJECT}Tests"
-export UI_TEST_SCHEME="${PROJECT}UITests"
+export UI_TEST_SCHEME="${PROJECT}UITests" # Comment this out for no UI tests
 export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="user@domain.com" # iTunes Connect User
 ```
+
+You will need to share the schemes for `$SCHEME` and `$UI_TEST_SCHEME` (if used) in Xcode so that
+these are available on CI. In Xcode, go to _Manage Schemes_ and select _Shared_ for each.
 
 ## Developer Setup
 
@@ -78,6 +81,10 @@ machine:
 checkout:
   post:
     - git submodule update --init
+dependencies:
+  override:
+    - ./bin/execute.sh pods
+    - ./bin/execute.sh carthage
 test:
   override:
     - ./bin/execute.sh test
@@ -86,7 +93,8 @@ deployment:
   itunes_connect:
     branch: release
     commands:
-      - git fetch --unshallow # this is required for bundle-version.sh because CircleCI uses a shallow clone
+      # add bitbucket.org to known_hosts so that match can download the certificates repo
+      - echo -e '\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==' >> ~/.ssh/known_hosts
       - ./bin/execute.sh itunes-connect
 ```
 

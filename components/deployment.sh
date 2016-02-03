@@ -2,7 +2,12 @@ function itunes_connect() {
   comp_init 'itunes-connect'
   check_deps 'bundle'
 
+  # make sure that we don't have a shallow clone so that bundle-version.sh has the whole history
+  git fetch --unshallow
+
+  # set up certificates and provisioning profiles
   bundle exec match appstore --readonly --verbose
+  bundle exec match development --readonly --verbose
   security find-identity -p codesigning
 
   msg "Building archive"
