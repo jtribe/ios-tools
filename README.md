@@ -171,7 +171,7 @@ Create an SSH key pair that can be used by CI to access the certificates reposit
 ssh-keygen -f temp-key
 # add the public key to BitBucket in the project settings > Deployment keys
 cat temp-key.pub
-# add the private key to CircleCI in the project settings > SSH Permissions
+# add the private key to CircleCI (hostname `bitbucket.org`) in the project settings > SSH Permissions
 cat temp-key
 rm temp-key temp-key.pub
 ```
