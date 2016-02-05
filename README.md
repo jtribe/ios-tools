@@ -135,6 +135,7 @@ You will need to have a _certificates repository_ for storing the encrypted cert
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
+  - Be sure to remove the `#` from the Matchfile next to `username` and `app_identifier` as these are comments
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
 	- This will add devices to the provisioning profile, however this fails if none exist. So [add your
