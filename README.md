@@ -135,6 +135,7 @@ You will need to have a _certificates repository_ for storing the encrypted cert
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
 - Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
+  - Be sure to remove the `#` from the Matchfile next to `username` and `app_identifier` as these are comments
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
 	- This will add devices to the provisioning profile, however this fails if none exist. So [add your
@@ -170,7 +171,7 @@ Create an SSH key pair that can be used by CI to access the certificates reposit
 ssh-keygen -f temp-key
 # add the public key to BitBucket in the project settings > Deployment keys
 cat temp-key.pub
-# add the private key to CircleCI in the project settings > SSH Permissions
+# add the private key to CircleCI (hostname `bitbucket.org`) in the project settings > SSH Permissions
 cat temp-key
 rm temp-key temp-key.pub
 ```
