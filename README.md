@@ -114,27 +114,31 @@ to understand the rationale behind this approach.
 
 ### Configure Apple Services
 
-- Ensure that an Apple ID has been created that will be used for the app
-	- If it will be released by jtribe then use `armin@jtribe.com.au`
-	- Otherwise the client will need to set up the following services and send us the Apple ID and password:
-		- https://developer.apple.com/membercenter/
-			- Enrol in the _Apple Developer Program_ (this costs $149 per year)
-		- https://itunesconnect.apple.com/
-	- Record the Apple ID in the project README.md
-	  ([example](https://github.com/jtribe/whispir-ios/blob/master/README.md)) and store the password in
-		our password tool using a Login item named e.g. "BWF Apple ID"
-  - The iTunes Connect user will need to have _App Manager_ permission
-- Create the App in Dev Center and iTunes Connect
-	- You can either use the Fastlane `produce` tool or do this manually through the browser. If you use `produce` then
-    you'll need to specify `--company_name` if it's the first app for the Apple ID.
+The following services will need to be set up:
+
+- [Developer Member Center](https://developer.apple.com/membercenter/)
+	- Enrol in the _Apple Developer Program_ (this costs $149 per year)
+- [iTunes Connect](https://itunesconnect.apple.com/)
+
+Invitations should be sent to `ios@jtribe.com.au` for both of these services:
+
+- The iTunes Connect user should have at least _App Manager_ permissions
+- The Developer Center user should have at least _Member_ permissions
+
+Create the App in Dev Center and iTunes Connect. You can either do this manually through the browser
+or use the Fastlane `produce` tool (you'll need to specify `--company_name` if it's
+the first app for the Apple ID).
 
 ### Create Certificates and Provisioning Profiles
 
-You will need to have a _certificates repository_ for storing the encrypted certificates and provisioning profiles. There should be one of these per client, and it's separate to the repo for the project. If one doesn't already exist then you should create one, typically using our Bitbucket account.
+You will need to have a _certificates repository_ for storing the encrypted certificates and
+provisioning profiles. There should be one of these per client, and it's separate to the repo for
+the project. If one doesn't already exist then you should create one, typically using our Bitbucket
+account.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
-- Edit the created `Matchfile` to set `username` to the Apple ID and `app_identifier` to the Bundle Identifier
+- Edit the created `Matchfile` to set `username` to `ios@jtribe.com.au` and `app_identifier` to the Bundle Identifier
   - Be sure to remove the `#` from the Matchfile next to `username` and `app_identifier` as these are comments
   - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
 - `bundle exec match development` to create the Debug certificate
@@ -182,7 +186,7 @@ rm temp-key temp-key.pub
 - Go to Devices > All and click the add button
 - You can get the UDID of your device using Xcode by plugging it in and going to Window > Devices
 - If the development provisioning profile has already been created, then you'll need to add this
-	device to it using `match development --force`
+	device to it using `match development --force_for_new_devices`
 
 ## Bundle Versions
 
