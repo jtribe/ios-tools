@@ -36,7 +36,6 @@ git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
 gemrat --pessimistic cocoapods xcpretty gym deliver match
-bundle install
 ```
 
 > If you want to be able to run on devices before the provisioning profiles have been created:
@@ -126,6 +125,11 @@ Invitations should be sent to `ios@jtribe.com.au` for both of these services:
 - The iTunes Connect user should have at least _App Manager_ permissions
 - The Developer Center user should have at least _Member_ permissions
 
+Once the invitations have been accepted and `ios@jtribe.com.au` has access to these services, go to
+Xcode > Preferences > Accounts and add this account (if it isn't already there), you should see the
+team for this project now displayed in the list of teams. Now go to General > Identity in your
+project's main target and select this team.
+
 Create the App in Dev Center and iTunes Connect. You can either do this manually through the browser
 or use the Fastlane `produce` tool (you'll need to specify `--company_name` if it's
 the first app for the Apple ID).
@@ -138,10 +142,14 @@ the project. If one doesn't already exist then you should create one, typically 
 Bitbucket team.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
-  - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
-- Edit the created `Matchfile` to set `username` to `ios@jtribe.com.au` and `app_identifier` to the Bundle Identifier
-  - Be sure to remove the `#` from the Matchfile next to `username` and `app_identifier` as these are comments
-  - These should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
+  - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL
+    for the repo so that we can provide CI with an SSH key to download it
+- Edit the created `Matchfile`
+  - Set `username` to `ios@jtribe.com.au` and `app_identifier` to the Bundle Identifier. These
+    should match the values for `ITC_USER` and `BUNDLE_IDENTIFIER` in `.config.sh`
+    - Be sure to remove the `#` before `username` and `app_identifier` to un-comment these lines
+  - Enter the `team_id` that you selected if you were prompted by `match` to select a team
+    e.g. `team_id "X12345678" # Foobar Widgets Inc.`
 - `bundle exec match development` to create the Debug certificate
 	- This will add devices to the provisioning profile, however this fails if none exist. So [add your
     device](#adding-devices) to the Dev Center, but you can skip adding it to the provisioning profile
@@ -153,14 +161,16 @@ Bitbucket team.
 
 - You might need to restart Xcode (seriously!) or run `bundle exec match development` and `bundle exec match appstore` again
 - In Xcode
-	- Go to Preferences > Accounts and add an account using the Apple ID (this is only required on setup)
-	- Go to the General > Identity in your project's main target and select the Team
-    - The Version must be "a period-separated list of at most three non-negative integers"
+	- Go to the General tab and ensure that Version is "a period-separated list of at most three non-negative integers"
   - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
     the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
   - Go to Build Settings > Code Signing
-  	- Set the Provisioning Profiles for Debug and Release to the created Development and AppStore profiles
-  	- Set the Code Signing Identity for Debug and Release to the identities from the selected profiles
+  	- Set the Provisioning Profiles:
+      - Debug: `match Development {{bundle ID}}`
+      - Release: `match AppStore {{bundle ID}}`
+  	- Set the Code Signing Identities:
+      - Debug: `iPhone Developer`
+      - Release: `iOS Distribution`
 
 ### CI Setup
 
