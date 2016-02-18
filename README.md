@@ -57,7 +57,7 @@ export UI_TEST_SCHEME="${PROJECT}UITests" # Comment this out for no UI tests
 export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
-export ITC_USER="user@domain.com" # iTunes Connect User
+export ITC_USER="ios@jtribe.com.au" # iTunes Connect User
 ```
 
 You will need to share each of these schemes in Xcode so that
