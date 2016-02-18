@@ -133,8 +133,8 @@ the first app for the Apple ID).
 
 You will need to have a _certificates repository_ for storing the encrypted certificates and
 provisioning profiles. There should be one of these per client, and it's separate to the repo for
-the project. If one doesn't already exist then you should create one, typically using our Bitbucket
-account.
+the project. If one doesn't already exist then you should create one, typically under the jtribe
+Bitbucket team.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the SSH URL for the repo so that we can provide CI with an SSH key to download it
