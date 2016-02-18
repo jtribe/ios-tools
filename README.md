@@ -36,6 +36,7 @@ git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
 gemrat --pessimistic cocoapods xcpretty gym deliver match
+bundle install
 ```
 
 In order to run on their devices before the provisioning profiles have been created:
