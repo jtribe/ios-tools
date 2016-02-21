@@ -1,17 +1,23 @@
 function unit_tests() {
-  comp_init 'tests'
-  msg 'Running unit tests'
-  run_tests "$TEST_SCHEME"
+  comp_init 'test'
+  if [[ -n $TEST_SCHEME ]]; then
+    msg 'Running unit tests'
+    run_tests "$TEST_SCHEME"
+  else
+    msg 'No TEST_SCHEME defined - skipping unit tests'
+  fi
   comp_deinit
 }
 
 function ui_tests() {
+  comp_init 'test'
   if [[ -n $UI_TEST_SCHEME ]]; then
-    comp_init 'tests'
     msg 'Running UI tests'
     run_tests "$UI_TEST_SCHEME"
-    comp_deinit
+  else
+    msg 'No UI_TEST_SCHEME defined - skipping UI tests'
   fi
+  comp_deinit
 }
 
 function run_tests() {
