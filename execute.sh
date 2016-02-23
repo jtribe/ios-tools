@@ -81,8 +81,10 @@ function run_task() {
   elif [[ $task = 'update' ]]; then
     update
   elif [[ $task = 'test' ]]; then
-    unit_tests \
-      && ui_tests
+    unit_tests
+    if [[ $? ]]; then
+      ui_tests
+    fi
   elif [[ $task = 'unit-tests' ]]; then
     unit_tests
   elif [[ $task = 'ui-tests' ]]; then
@@ -146,36 +148,11 @@ function script_exit() {
   script_exit 2 'Invalid arguments passed to script_exit()!'
 }
 
-# Handler for unexpected errors when encountered
-function script_trap_err() {
-  # Disable the error trap handler to prevent potential recursion
-  trap - ERR
-
-  # Consider any further errors non-fatal to ensure we run to completion
-  set +o errexit
-  set +o pipefail
-
-  if [[ -n $comp_trap_err ]]; then
-    $comp_trap_err
-  fi
-  # Print out some useful debugging output on the error condition
-  if [[ -n $current_cmd ]]; then
-    if [[ -n $cmd_output ]]; then
-      echo "$cmd_output"
-    fi
-    echo -e "${red}Failed command: $current_cmd (within "$PWD")${default}"
-  fi
-
-  # Exit with failure status
-  exit 1
-}
-
 function comp_init() {
   if [[ -n $comp_name && $comp_name != $1 ]]; then
     script_exit 2 "Call to comp_init $1 when comp_deinit has not been called"
   fi
   comp_name=$1
-  comp_trap_err=$2
 }
 
 function comp_deinit() {
@@ -183,7 +160,6 @@ function comp_deinit() {
     script_exit 2 "Call to comp_deinit when comp_init has not been called"
   fi
   unset comp_name
-  unset comp_trap_err
 }
 
 # Echo but make it pretty
@@ -266,7 +242,6 @@ function check_deps() {
 }
 
 # Script initialisatsion
-trap 'script_trap_err' ERR
 script_init
 
 cd "$project_dir"
