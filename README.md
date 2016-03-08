@@ -58,6 +58,8 @@ export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="ios@jtribe.com.au" # iTunes Connect User
+
+export CARTHAGE_OPTS="--platform iOS" # Options for Carthage commands
 ```
 
 You will need to share each of these schemes in Xcode so that
