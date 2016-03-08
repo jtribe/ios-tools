@@ -100,8 +100,11 @@ deployment:
       - ./bin/execute.sh itunes-connect
 ```
 
-Now an admin of the repo needs to go to CircleCI and enable builds for the project. In order for
-CircleCI to be able to fetch this repo (ios-tools) as a submodule, you will need to [add a "user
+## Enabling Builds in CI
+
+After you've done the above step, an admin of the Repo needs to go into CircleCI and allow builds for the project. If you're not an admin, stop doing what you're doing and procure someone who can do this for you.
+
+In order for CircleCI to be able to fetch this repo (ios-tools) as a submodule, you will need to [add a "user
 key" to the Project Settings](https://circleci.com/docs/external-resources).
 
 ## Code Signing and Continuous Deployment
