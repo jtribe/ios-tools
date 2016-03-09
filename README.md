@@ -29,7 +29,7 @@ open a new shell session too).
 
 ## Installation
 
-These steps only need to be performed once, developers simply need to run `./bin/execute.sh setup`.
+These steps only need to be performed once, developers simply need to run `bin/execute.sh setup`.
 
 ```sh
 git submodule add git@github.com:jtribe/ios-tools.git bin
@@ -68,7 +68,7 @@ these are available on CI. In Xcode, go to _Manage Schemes_ and select _Shared_ 
 ## Developer Setup
 
 ```bash
-./bin/execute.sh setup
+bin/execute.sh setup
 ```
 
 ## CircleCI Configuration
@@ -87,11 +87,11 @@ dependencies:
   # we override dependencies because CircleCI doesn't use `bundle exec` when calling `pod install`
   override:
     - bundle install
-    - ./bin/execute.sh pods
-    - ./bin/execute.sh carthage
+    - bin/execute.sh pods
+    - bin/execute.sh carthage
 test:
   override:
-    - ./bin/execute.sh test
+    - bin/execute.sh test
     - mv build/reports/* $CIRCLE_TEST_REPORTS
 deployment:
   itunes_connect:
@@ -99,7 +99,7 @@ deployment:
     commands:
       # add bitbucket.org to known_hosts so that match can download the certificates repo
       - echo -e '\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==' >> ~/.ssh/known_hosts
-      - ./bin/execute.sh itunes-connect
+      - bin/execute.sh itunes-connect
 ```
 
 ## Enabling Builds in CI
