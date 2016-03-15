@@ -3,7 +3,7 @@ function itunes_connect() {
   check_deps 'bundle'
 
   # make sure that we don't have a shallow clone so that bundle-version.sh has the whole history
-  git fetch --unshallow
+  git fetch --unshallow || true
 
   # set up certificates and provisioning profiles
   bundle exec match appstore --readonly --verbose
