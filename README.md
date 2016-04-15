@@ -49,7 +49,7 @@ gemrat --pessimistic cocoapods xcpretty gym deliver match
 This file defines several variables that are used in these scripts.
 
 ```sh
-export PROJECT="MyAwesomeProject"
+export PROJECT="MyAwesomeProject" # the name of the .xcodeproj, not the repo
 # export WORKSPACE="$PROJECT.xcworkspace" # Comment this out for no workspace
 export SCHEME="$PROJECT"
 export TEST_SCHEME="${PROJECT}Tests"
