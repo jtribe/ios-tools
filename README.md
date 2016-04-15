@@ -212,3 +212,7 @@ commit for a Bundle Version by entering it into the following command:
 ```bash
 git log `git rev-list origin/master | awk "NR == $bundle_version"`
 ```
+
+## Troubleshooting
+
+- If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [StackOverflow answer](http://stackoverflow.com/a/26780411/822249)
