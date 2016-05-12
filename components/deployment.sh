@@ -7,7 +7,6 @@ function itunes_connect() {
 
   # set up certificates and provisioning profiles
   bundle exec match appstore --readonly --verbose
-  bundle exec match development --readonly --verbose
   security find-identity -p codesigning
 
   msg "Building archive"
