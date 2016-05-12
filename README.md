@@ -256,7 +256,7 @@ itc_team_id "123456789"
  
 - Now run `bundle exec match development` to create the Debug certificate
   - This will add devices to the provisioning profile, however this fails if none exist. So [add your device](#adding-devices) to the Dev Center first.
-  - You can skip adding it to the provisioning profile because `bundle exec match development --force-for-new-devices` will do this for you.
+  - You can skip adding it to the provisioning profile because `bundle exec match development --force_for_new_devices` will do this for you.
   - Store the passphrase in our password tool using a Password item named e.g. "PROJECT Certificates Passphrase"
 - Run `bundle exec match appstore` to create the Distribution certificate. **This is needed for submission**
 
@@ -275,7 +275,7 @@ Save the file, and exit. Make sure this is committed to the repo. CircleCI will 
 ## Configure the Xcode Project
 
 - You might need to restart Xcode (seriously!) or run `bundle exec match development` and `bundle exec match appstore` again.
-  - If your device still hasn't been added to the `development` provisioning profile, add `--force-for-new-devices` to the `bundle exec match development` command, then run it again.
+  - If your device still hasn't been added to the `development` provisioning profile, add `--force_for_new_devices` to the `bundle exec match development` command, then run it again.
 - In Xcode
 	- Go to the General tab and ensure that Version is "a period-separated list of at most three non-negative integers".
 	- In laymans terms, this is Semantic Versioning. Keep it in the following format: `X.Y.Z` where X Y and Z are non-negative, and will increase accordingly over time.
