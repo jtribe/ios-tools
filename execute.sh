@@ -35,6 +35,7 @@ function script_usage() {
     pods                            Run pod update
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
+      -s|--scheme                     The scheme to build (default: $SCHEME)
 
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output
@@ -64,6 +65,11 @@ function parse_params() {
       -ng|--no-git)
         check_tasksel 'update'
         no_git=true
+        ;;
+      -s|--scheme)
+        check_tasksel 'itunes-connect'
+        scheme="$1"
+        shift
         ;;
       *)
         check_tasksel
@@ -98,7 +104,7 @@ function run_task() {
   elif [[ $task = 'clean' ]]; then
     clean
   elif [[ $task = 'itunes-connect' ]]; then
-    itunes_connect
+    itunes_connect "$scheme"
   else
     script_exit 1 "Invalid task: $param"
   fi
