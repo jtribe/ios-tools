@@ -5,8 +5,6 @@ function itunes_connect() {
   if [ -z "$scheme" ]; then
     scheme=$SCHEME
   fi
-  echo $scheme
-  exit
 
   # make sure that we don't have a shallow clone so that bundle-version.sh has the whole history
   git fetch --unshallow || true
