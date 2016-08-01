@@ -29,6 +29,8 @@ If you're using Mac OS 10.11 "El Capitan" you may want to install Ruby using Hom
 permissions issues with `/usr/bin`. You can do this using `brew install ruby` (you might need to
 open a new shell session too).
 
+If you're using rvm to manage ruby versions and fish shell instead of bash, you can get rvm support under fish by following [these instructions](https://rvm.io/integration/fish).
+
 ---
 
 ## Installation
