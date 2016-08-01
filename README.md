@@ -95,6 +95,8 @@ If you are using Carthage, we _**do not**_ build the _Carthage_ modules on CI. I
 Add a `circle.yml` file to the root directory of the project. A typical `circle.yml` setup is as
 follows.
 
+The SSH Key will never change.
+
 ```yaml
 machine:
   xcode:
