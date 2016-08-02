@@ -8,6 +8,7 @@ function setup() {
   fi
   comp_deinit
 
+  bundle exec pod repo update
   pod_install
   carthage_bootstrap
 }
