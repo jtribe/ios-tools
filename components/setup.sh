@@ -10,5 +10,7 @@ function setup() {
 
   bundle exec pod repo update
   pod_install
-  carthage_bootstrap
+  if [[ ! -d "Carthage/Build" ]]; then
+    carthage_bootstrap
+  fi
 }
