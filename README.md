@@ -44,12 +44,6 @@ bundle init
 gemrat --pessimistic cocoapods xcpretty gym deliver match
 ```
 
-> If you want to be able to run on devices before the provisioning profiles have been created:
-
-> - Open the project settings in Xcode
-> - In the _General_ tab select _None_ in the Team dropdown
-> - In _Build Settings > Code Signing_ select _Don't Code Sign_ option for _Debug_ and _iOS Developer_ for _Any iOS SDK_
-
 ---
 
 ## `.config.sh`
