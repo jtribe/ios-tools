@@ -46,6 +46,19 @@ gemrat --pessimistic cocoapods xcpretty gym deliver match
 
 ---
 
+## Upgrading CocoaPods in a legacy project
+
+If you have an older project that isn't using CocoaPods 1.0 and you want/need to update it, these steps should help:
+
+1. Make sure you're using a recent ruby version (2.3.x for now) - if you don't have it you can run `brew install ruby` or for a specific/multiple version(s) `brew install rvm`, `rvm install 2.3.1`, `rvm use 2.3.1`
+2. You'll need to set which new versions of gems/pods you want using `gem update [gemfile]` or `bundle exec update [podfile]`
+3. Run `bun/execute.sh setup` which installs gems, runs match, and installs pods (among other things)
+4. If you have problems building/linking clean your project (shift-cmd-K) and clean the output folder (shift-opt-cmd-K). The latter can correct linker issues regarding arm7 architecture and other weird problems where you can build for the simulator but not for a device.
+
+Note: If you've upgraded CocoaPods to a version that changes its integration with XCode (ie. 0.39 to 1.0) then you might need to run `bundle exec pod deintegrate` then `bundle exec pod install` before opening and building your project. 
+
+---
+
 ## `.config.sh`
 
 This file defines several variables that are used in these scripts.
