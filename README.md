@@ -193,6 +193,7 @@ If you have an older project that isn't using CocoaPods 1.0 and you want/need to
 4. If you have problems building/linking clean your project (shift-cmd-K) and clean the output folder (shift-opt-cmd-K). The latter can correct linker issues regarding arm7 architecture and other weird problems where you can build for the simulator but not for a device.
 
 Note: If you've upgraded CocoaPods to a version that changes its integration with XCode (ie. 0.39 to 1.0) then you might need to run `bundle exec pod deintegrate` then `bundle exec pod install` before opening and building your project. 
+
 ---
 
 ## Expanding ios-tools
