@@ -128,6 +128,9 @@ checkout:
     - git submodule update --init
 dependencies:
   # we override dependencies because CircleCI doesn't use `bundle exec` when calling `pod install`
+  # we are also caching the Cocoapods master repo to reduce build times.
+  cache_directories:
+    - "~/.cocoapods/repos/master"
   override:
     - bin/execute.sh pods
 test:
