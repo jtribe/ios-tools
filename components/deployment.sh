@@ -23,7 +23,7 @@ function itunes_connect() {
   fi
   bundle exec gym build \
     $workspace \
-    --scheme "$SCHEME" \
+    --scheme "$scheme" \
     $clean_build
 
   msg "Submitting to iTunes Connect"
