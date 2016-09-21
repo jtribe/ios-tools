@@ -180,6 +180,12 @@ git log `git rev-list origin/master | awk "NR == $bundle_version"`
 
 ## Troubleshooting
 
+- Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're using the latest versions of the Fastlane tools:
+
+    ```sh
+    gemrat --pessimistic gym deliver match
+    bundle update
+    ```
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [StackOverflow answer](http://stackoverflow.com/a/26780411/822249)
 - If CircleCI is failing, and you **are using Carthage** then make sure your frameworks are being committed to Git as detailed above.
   - Also make sure you have added the Carthage Copy Frameworks run-script Build Phase in Xcode.
