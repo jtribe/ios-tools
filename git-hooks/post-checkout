@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+tar -C ./Carthage -xvf ./Carthage/Build.tar
