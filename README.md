@@ -132,6 +132,7 @@ dependencies:
   cache_directories:
     - "~/.cocoapods/repos/master"
   override:
+    - bundle install
     - bin/execute.sh pods
 test:
   override:
