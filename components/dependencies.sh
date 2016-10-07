@@ -11,6 +11,19 @@ function pod_install() {
   comp_deinit
 }
 
+function pod_install_verbose() {
+  comp_init 'dependencies'
+  if [[ -f Podfile ]]; then
+    check_deps 'pod'
+    msg 'Installing CocoaPods'
+    if [[ -z $clean ]]; then
+      args="--no-repo-update $args"
+    fi
+    bundle exec pod install --verbose $args $@
+  fi
+  comp_deinit
+}
+
 function carthage_bootstrap() {
   comp_init 'dependencies'
   if [[ -f Cartfile ]]; then
