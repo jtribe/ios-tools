@@ -7,9 +7,10 @@ function setup() {
     bundle exec match development --readonly
   fi
 
-  if [[ -f Cartfile ]]; then
+  if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
     msg 'Installing Git hooks'
     (symlinkGitHooks)
+    .git/hooks/post-checkout
   fi
 
   comp_deinit
