@@ -6,20 +6,10 @@ function pod_install() {
     if [[ -z $clean ]]; then
       args="--no-repo-update $args"
     fi
-    bundle exec pod install $args $@
-  fi
-  comp_deinit
-}
-
-function pod_install_verbose() {
-  comp_init 'dependencies'
-  if [[ -f Podfile ]]; then
-    check_deps 'pod'
-    msg 'Installing CocoaPods'
-    if [[ -z $clean ]]; then
-      args="--no-repo-update $args"
+    if [[ $verbose ]]; then
+      args="--verbose $args"
     fi
-    bundle exec pod install --verbose $args $@
+    bundle exec pod install $args $@
   fi
   comp_deinit
 }
@@ -45,5 +35,8 @@ function carthage_update() {
 }
 
 function run_carthage() {
-  carthage $@ $CARTHAGE_OPTS
+  if [[ $verbose ]]; then
+    args="--verbose $args"
+  fi
+  carthage $@ $CARTHAGE_OPTS $args
 }

@@ -33,7 +33,6 @@ function script_usage() {
     carthage                        Run carthage bootstrap
     carthage-update                 Run carthage update
     pods                            Run pod update
-    pods-verbose                    Run pod update with --verbose
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
       -s|--scheme                     The scheme to build (default: $SCHEME)
@@ -72,6 +71,9 @@ function parse_params() {
         scheme="$1"
         shift
         ;;
+      -v|--verbose)
+        verbose=true
+        ;;
       *)
         check_tasksel
         task=$param
@@ -98,8 +100,6 @@ function run_task() {
     ui_tests
   elif [[ $task = 'pods' ]]; then
     pod_install
-  elif [[ $task = 'pods-verbose' ]]; then
-    pod_install_verbose
   elif [[ $task = 'carthage' ]]; then
     carthage_bootstrap
   elif [[ $task = 'carthage-update' ]]; then
@@ -261,6 +261,7 @@ done
 
 munge_params
 parse_params $@
+
 # Output usage if no task is specified
 if [[ $# -eq 0 && -z $task ]]; then
   script_usage
