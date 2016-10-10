@@ -75,10 +75,10 @@ To begin, an `App ID` for the project must be created in the iOS Developer Membe
 (The App ID used here must match your project bundle ID, as well as any references you make to the App ID in configuration files)
 
 #### 2. Login to Team in Xcode
-Once an App ID is set up in the developer centre, navigate to XCode and make sure you are signed into your Team's Apple ID. You can check if you have already done this by navigating to xcode and selecting `Xcode -> Preferenes -> Accounts` and checking if your team appearing under the subheading "Apple IDs". if it doesn't, add it, by seelecting the "+" button and enerting the authentication details.
+Once an App ID is set up in the developer centre, navigate to XCode and make sure you are signed into your Team's Apple ID. You can check if you have already done this by navigating to Xcode and selecting `Xcode -> Preferenes -> Accounts` and checking if your team appearing under the subheading "Apple IDs". if it doesn't, add it, by selecting the "+" button and entering the authentication details.
 
 #### 3. Create Private Certificates Repository
-You will now need to set up a private git repositry, which is where your codesigning documents will be securly kept. Navigate to the site where you wish to host this repositry (e.g. github, bitbucket) and create and empty repository. The recomended name is "{PROJECT_NAME}-Certificates".
+You will now need to set up a private git repository, which is where your code signing documents will be securely kept. Navigate to the site where you wish to host this repository (e.g. github, bitbucket) and create an empty repository. The recommended name is "{PROJECT_NAME}-Certificates".
 
 #### 4. Create Everything Using `match`
 
@@ -128,10 +128,9 @@ checkout:
     - git submodule update --init
     - bin/execute.sh setup
 dependencies:
-  # we override dependencies because CircleCI doesn't use `bundle exec` when calling `pod install`
-  # we are also caching the Cocoapods master repo to reduce build times.
+  # cache the Cocoapods master repo to reduce build times
   cache_directories:
-    - "~/.cocoapods/repos/master"
+    - ~/.cocoapods/repos/master
 test:
   override:
     - bin/execute.sh test
@@ -140,8 +139,6 @@ deployment:
   itunes_connect:
     branch: release
     commands:
-      # add bitbucket.org to known_hosts so that match can download the certificates repo
-      - echo -e '\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==' >> ~/.ssh/known_hosts
       - bin/execute.sh itunes-connect
 ```
 

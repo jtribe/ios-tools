@@ -42,7 +42,6 @@ You will need to have a _certificates repository_ for storing the encrypted cert
 provisioning profiles.
 
 - There should be one of these per client, and it's separate to the repo for the project.
-  - If one doesn't already exist then you should create one, typically under the jtribe Bitbucket team.
 
 ---
 
@@ -53,13 +52,13 @@ provisioning profiles.
     for the repo so that we can provide CI with an SSH key to download it
 - Edit the created `Matchfile`:
   - _**At the top of the Matchfile**_ paste the `git_url` (SSH) that you use for the certificates repo.
-    - _Example: git_url "git@bitbucket.org:jtribe/project-certificates.git"
-  - Then, declare the default `type` to be `development` as follows: `type "development`.
+    - _Example: git_url "git@github.com:jtribe/project-certificates.git"
+  - Then, declare the default `type` to be `development` as follows: `type "development"`.
 
 In all, your `Matchfile` should look like this:
 
 ```text
-git_url "git@bitbucket.org:jtribe/activistic-certificates.git"
+git_url "git@github.com:jtribe/activistic-certificates.git"
 
 type "development" # This is the default type. It can be: appstore, adhoc or development.
 ```
@@ -125,18 +124,6 @@ Add the following environment variables in the CI setup:
 
 - `MATCH_PASSWORD`: the passphrase for the [match](https://github.com/fastlane/match) repository
 - `FASTLANE_PASSWORD`: the password for the iTunes Connect Account (for the `ITC_USER` specified in `.config.sh`)
-
-Create an SSH key pair that can be used by CI to access the certificates repository:
-
-```sh
-# generate a new SSH key pair (no passphrase is required)
-ssh-keygen -f temp-key
-# add the public key to BitBucket in the project settings > Deployment keys
-cat temp-key.pub
-# add the private key to CircleCI (hostname `bitbucket.org`) in the project settings > SSH Permissions
-cat temp-key
-rm temp-key temp-key.pub
-```
 
 ---
 
