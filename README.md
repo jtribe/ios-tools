@@ -103,7 +103,7 @@ If you have issues and require further reading, try [here](docs/code-signing-and
 
 ## Pods & Carthage
 
-If using **Cocoa Pods**, the standard `bin/execute.sh setup` will handle the installation of pods specified in the Podfile.
+If using **CocoaPods**, the standard `bin/execute.sh setup` will handle the installation of pods specified in the Podfile.
 
 If using **Carthage**, the standard `bin/execute.sh setup` will handle the download and building of frameworks specified in the Cartfile. They will still need to be added to the Xcode project manually, if not yet done so.
 
@@ -176,6 +176,17 @@ git log `git rev-list origin/master | awk "NR == $bundle_version"`
 ```
 
 ---
+
+### Upgrading ios-tools
+
+```bash
+cd bin
+git fetch
+git diff origin/master
+# review the changes and update your project as required
+git co master
+git pull
+```
 
 ## Troubleshooting
 
