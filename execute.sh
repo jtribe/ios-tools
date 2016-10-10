@@ -31,8 +31,11 @@ function script_usage() {
       -c|--clean                      Clean before building
       -d|--destination                The destination (default: $DESTINATION)
     carthage                        Run carthage bootstrap
+      -v|--verbose                    Verbose output
     carthage-update                 Run carthage update
+      -v|--verbose                    Verbose output
     pods                            Run pod update
+      -v|--verbose                    Verbose output
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
       -s|--scheme                     The scheme to build (default: $SCHEME)
