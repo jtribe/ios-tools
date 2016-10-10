@@ -10,15 +10,24 @@ function setup() {
   if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
     msg 'Installing Git hooks'
     (symlinkGitHooks)
-    .git/hooks/post-checkout
   fi
 
   comp_deinit
 
-  bundle exec pod repo update
+  if [[ $verbose ]]; then
+    verboseArg='--verbose'
+  fi
+  bundle exec pod repo update $verboseArg
   pod_install
-  if [[ ! -d "Carthage/Build" ]]; then
-    carthage_bootstrap
+
+  if [[ -f Cartfile ]]; then
+    if [[ -f Carthage/Build.tar.gz ]]; then
+      .git/hooks/post-checkout
+    fi
+    if [[ ! -d "Carthage/Build" ]]; then
+      carthage_bootstrap
+    fi
+    .git/hooks/pre-commit
   fi
 }
 

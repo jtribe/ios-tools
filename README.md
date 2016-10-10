@@ -126,14 +126,12 @@ machine:
 checkout:
   post:
     - git submodule update --init
+    - bin/execute.sh setup
 dependencies:
   # we override dependencies because CircleCI doesn't use `bundle exec` when calling `pod install`
   # we are also caching the Cocoapods master repo to reduce build times.
   cache_directories:
     - "~/.cocoapods/repos/master"
-  override:
-    - bundle install
-    - bin/execute.sh pods
 test:
   override:
     - bin/execute.sh test
@@ -203,7 +201,7 @@ If you have an older project that isn't using CocoaPods 1.0 and you want/need to
 3. Run `bun/execute.sh setup` which installs gems, runs match, and installs pods (among other things)
 4. If you have problems building/linking clean your project (shift-cmd-K) and clean the output folder (shift-opt-cmd-K). The latter can correct linker issues regarding arm7 architecture and other weird problems where you can build for the simulator but not for a device.
 
-Note: If you've upgraded CocoaPods to a version that changes its integration with XCode (ie. 0.39 to 1.0) then you might need to run `bundle exec pod deintegrate` then `bundle exec pod install` before opening and building your project. 
+Note: If you've upgraded CocoaPods to a version that changes its integration with XCode (ie. 0.39 to 1.0) then you might need to run `bundle exec pod deintegrate` then `bundle exec pod install` before opening and building your project.
 
 ---
 
