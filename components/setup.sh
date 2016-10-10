@@ -8,7 +8,7 @@ function setup() {
 
   if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
     msg 'Installing Git hooks'
-    (symlinkGitHooks)
+    symlinkGitHooks
   fi
 
   comp_deinit
@@ -31,6 +31,7 @@ function setup() {
 }
 
 function symlinkGitHooks() {
-  cd $project_dir/.git/hooks
-  ln -s ../../bin/git-hooks/{pre-commit,post-checkout} .
+  hooksDir=$project_dir/.git/hooks
+  mkdir $hooksDir
+  ln -s ../../bin/git-hooks/{pre-commit,post-checkout} $hooksDir
 }
