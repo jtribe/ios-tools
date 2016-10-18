@@ -116,7 +116,7 @@ If using **Carthage**, the standard `bin/execute.sh setup` will handle the downl
 ### Add `circle.yml` File
 
 Add a `circle.yml` file to the root directory of the project. A typical `circle.yml` setup is as
-follows. (n.b. The SSH Key will never change.)
+follows. 
 
 
 ```yaml
@@ -140,6 +140,13 @@ deployment:
     branch: release
     commands:
       - bin/execute.sh itunes-connect --scheme "MyProject-Prod"
+```
+
+
+n.b. If you are working on an existing project that still use bitbucket for the certificate repository, you will need to add SSH keys _before_ you run `bin/execute.sh setup` in the post-checkout steps:
+
+```
+- echo -e '\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==' >> ~/.ssh/known_hosts
 ```
 
 ### Enable Builds On Circle CI
