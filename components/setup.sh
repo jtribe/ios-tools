@@ -32,6 +32,6 @@ function setup() {
 
 function symlinkGitHooks() {
   hooksDir=$project_dir/.git/hooks
-  mkdir $hooksDir
+  mkdir -p $hooksDir
   ln -s ../../bin/git-hooks/{pre-commit,post-checkout} $hooksDir
 }

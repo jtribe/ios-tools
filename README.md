@@ -126,10 +126,10 @@ machine:
 checkout:
   post:
     - git submodule update --init
-    - bin/execute.sh setup
+    - bin/execute.sh setup --verbose
 dependencies:
-  # cache the Cocoapods master repo to reduce build times
   cache_directories:
+    # cache the Cocoapods master repo to reduce build times
     - ~/.cocoapods/repos/master
 test:
   override:
@@ -139,7 +139,7 @@ deployment:
   itunes_connect:
     branch: release
     commands:
-      - bin/execute.sh itunes-connect
+      - bin/execute.sh itunes-connect --scheme "MyProject-Prod"
 ```
 
 ### Enable Builds On Circle CI
@@ -183,6 +183,9 @@ git diff origin/master
 # review the changes and update your project as required
 git co master
 git pull
+cd ..
+gemrat --pessimistic gym deliver match
+bundle update
 ```
 
 ## Troubleshooting
