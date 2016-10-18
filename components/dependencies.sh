@@ -1,5 +1,6 @@
 function pod_install() {
   comp_init 'dependencies'
+
   if [[ -f Podfile ]]; then
     check_deps 'pod'
     msg 'Installing CocoaPods'

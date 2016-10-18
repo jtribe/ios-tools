@@ -1,9 +1,13 @@
 function setup() {
   comp_init 'setup'
 
-  bundle install
+  if [[ $verbose ]]; then
+    verboseArg='--verbose'
+  fi
+
+  bundle install $verboseArg
   if [[ -f Matchfile ]]; then
-    bundle exec match development --readonly
+    bundle exec match development --readonly $verboseArg
   fi
 
   if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
@@ -13,9 +17,6 @@ function setup() {
 
   comp_deinit
 
-  if [[ $verbose ]]; then
-    verboseArg='--verbose'
-  fi
   bundle exec pod repo update $verboseArg
   pod_install
 
