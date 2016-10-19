@@ -125,8 +125,11 @@ machine:
     version: '7.3' # 7.3 is correct as of May 12 2016
 checkout:
   post:
+    # download ios-tools 
     - git submodule update --init
-    - bin/execute.sh setup --verbose
+    # run pods, carthage, match etc. need verbose to prevent timeouts in circle for slow activities
+    - bin/execute.sh setup --verbose:
+        timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
 dependencies:
   cache_directories:
     # cache the Cocoapods master repo to reduce build times
