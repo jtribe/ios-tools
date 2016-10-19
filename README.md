@@ -32,7 +32,7 @@ Navigate to your projects directory in terminal and add perform the following co
 git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
-gemrat --pessimistic cocoapods xcpretty gym deliver match
+gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
 ```
 
 This will result in a "bin" folder appearing, which will contain the shell files to be run in order to perform common tasks.
@@ -125,12 +125,11 @@ machine:
     version: '7.3' # 7.3 is correct as of May 12 2016
 checkout:
   post:
+    # download ios-tools 
     - git submodule update --init
-    - bin/execute.sh setup --verbose
-dependencies:
-  cache_directories:
-    # cache the Cocoapods master repo to reduce build times
-    - ~/.cocoapods/repos/master
+    # run pods, carthage, match etc. need verbose to prevent timeouts in circle for slow activities
+    - bin/execute.sh setup --verbose:
+        timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
 test:
   override:
     - bin/execute.sh test
@@ -191,7 +190,7 @@ git diff origin/master
 git co master
 git pull
 cd ..
-gemrat --pessimistic gym deliver match
+gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
 bundle update
 ```
 
@@ -200,7 +199,7 @@ bundle update
 - Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're using the latest versions of the Fastlane tools:
 
     ```sh
-    gemrat --pessimistic gym deliver match
+    gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
     bundle update
     ```
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [StackOverflow answer](http://stackoverflow.com/a/26780411/822249)
