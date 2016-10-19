@@ -5,6 +5,7 @@ function setup() {
     verboseArg='--verbose'
   fi
 
+  gem innstall bundler
   bundle install $verboseArg
   if [[ -f Matchfile ]]; then
     bundle exec match development --readonly $verboseArg
