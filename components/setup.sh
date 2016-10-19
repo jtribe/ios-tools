@@ -5,8 +5,8 @@ function setup() {
     verboseArg='--verbose'
   fi
 
-  gem install bundler
-  bundle install $verboseArg
+#  gem install bundler
+#  bundle install $verboseArg
   if [[ -f Matchfile ]]; then
     bundle exec match development --readonly $verboseArg
   fi
@@ -18,7 +18,7 @@ function setup() {
 
   comp_deinit
 
-  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
+#  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
 
   if [[ -f Cartfile ]]; then
     if [[ -f Carthage/Build.tar.gz ]]; then
