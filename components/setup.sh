@@ -17,7 +17,7 @@ function setup() {
 
   comp_deinit
 
-  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install —-repo-update $verboseArg
+  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
 
   if [[ -f Cartfile ]]; then
     if [[ -f Carthage/Build.tar.gz ]]; then
