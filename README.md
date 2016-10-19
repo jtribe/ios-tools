@@ -130,10 +130,6 @@ checkout:
     # run pods, carthage, match etc. need verbose to prevent timeouts in circle for slow activities
     - bin/execute.sh setup --verbose:
         timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
-dependencies:
-  cache_directories:
-    # cache the Cocoapods master repo to reduce build times
-    - ~/.cocoapods/repos/master
 test:
   override:
     - bin/execute.sh test
