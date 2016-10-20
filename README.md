@@ -127,11 +127,16 @@ checkout:
   post:
     # download ios-tools 
     - git submodule update --init
-    # run pods, carthage, match etc. need verbose to prevent timeouts in circle for slow activities
-    - bin/execute.sh setup --verbose:
+dependencies:
+  override:
+    # run pods, carthage, match etc. 
+    - bin/execute.sh setup:
         timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
 test:
   override:
+    # start the simulator before running tests. this uses iPhone 6 (9.3)
+    - xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
+    - sleep 15
     - bin/execute.sh test
     - mv build/reports/* $CIRCLE_TEST_REPORTS
 deployment:
