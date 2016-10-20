@@ -5,8 +5,12 @@ function setup() {
     verboseArg='--verbose'
   fi
 
-#  gem install bundler
-#  bundle install $verboseArg
+  # This is the bundle command that circle uses 
+  bundle check || bundle install --jobs 4 --retry 3
+
+  # pod install may take 25 mins on circle if it has to download the master spec repo             
+  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
+
   if [[ -f Matchfile ]]; then
     bundle exec match development --readonly $verboseArg
   fi
@@ -17,8 +21,6 @@ function setup() {
   fi
 
   comp_deinit
-
-#  bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
 
   if [[ -f Cartfile ]]; then
     if [[ -f Carthage/Build.tar.gz ]]; then
