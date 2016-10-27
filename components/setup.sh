@@ -8,6 +8,9 @@ function setup() {
   # This is the bundle command that circle uses 
   bundle check || bundle install --jobs 4 --retry 3
 
+  # Fix for circle error code 65?
+  diff Podfile.lock Pods/Manifest.lock > /dev/null || bundle exec pod install
+
   # pod install may take 25 mins on circle if it has to download the master spec repo             
   bundle exec pod check || bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
 
