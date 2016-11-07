@@ -37,6 +37,6 @@ function run_tests() {
       -scheme "$scheme" \
       -sdk iphonesimulator \
       -destination "$destination" \
-      $clean_build test \
-    | bundle exec xcpretty --report junit
+      $clean_build test #\
+#    | bundle exec xcpretty --report junit
 }
