@@ -1,14 +1,9 @@
-# Manually Integrating Fastlane `match`
+# Manually Integrating Development Certificates Into A New Match Repository
 
 ## Summary & Disclaimer
-When starting a new project for a new client (i.e. the first app) you can follow the standard iOS Tools setup procedure, and run `match` as normal. 
+`match` is designed to use a single certificate repository for all your provisioning profiles and certificates for a given client/team in `iTunes Connect`. `iTunes Connect` limits the number of developer/appstore certificates you can generate (to 2 or 3). If you use a new `match` repository for several apps/projects for the same team, you will hit this limit.
 
-However, if the app you're setting up is *not* the first one for the client, you will need to use existing `development` and `appstore` certificates that have been previously setup in the portal. These are the ones that should be used by `match`.
-
-## Why Doesn't Match Do This?
-Because the private and public keys for certificates are not stored in the Dev Center, and are stored on the machine that generated them. Every time you run `bundle exec match development` or `appstore`, it tries to create a new certificate in the portal. This will work a total of three times, before you see an error which tells you that you've "reached the maximum number of development/distribution certificates."
-
-This is an issue, because you generally can't and _should not_ revoke any certificates that are already there as that can create headaches for everyone involved.
+The steps below are a last resort - if we use the same repository for all apps, then the development certificates will be re-used and you won't have this problem. If you run into this issue you probably want to switch to using an exising `match` repo for the team, and regenerate your provisioning profiles using the existing certificates. if you decide against this, you can manually bring in your certificates into a new `match` repository by following the steps below.
 
 ## How To Do It
 There is currently no way to automatically migrate your existing certificates, but you can still do it manually.

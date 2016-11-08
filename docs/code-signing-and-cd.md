@@ -49,11 +49,11 @@ provisioning profiles.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the **SSH URL**
-    for the repo so that we can provide CI with an SSH key to download it
-- Edit the created `Matchfile`:
-  - _**At the top of the Matchfile**_ paste the `git_url` (SSH) that you use for the certificates repo.
-    - _Example: git_url "git@github.com:jtribe/project-certificates.git"
-  - Then, declare the default `type` to be `development` as follows: `type "development"`.
+    for the repo so that we can provide CI with an SSH key to download it. 
+  - If this is the first app/project for this client/team in `iTunes Connect`, you need to create the repo on github first.
+  - There should only be one repo per client/team. Running `match` and passing in the git url 
+    of an existing certificate repo will not affect the repo, it just sets the URL in the `Matchfile`.
+  - Alternatively you could copy the `Matchfile` from an existing app for the same client/team.
 
 In all, your `Matchfile` should look like this:
 

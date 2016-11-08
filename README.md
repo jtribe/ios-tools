@@ -32,10 +32,23 @@ Navigate to your projects directory in terminal and add perform the following co
 git submodule add git@github.com:jtribe/ios-tools.git bin
 touch .config.sh
 bundle init
-gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
 ```
 
 This will result in a "bin" folder appearing, which will contain the shell files to be run in order to perform common tasks.
+
+### Adding gems
+
+To create a `Gemfile` use `gemrat`:
+
+```
+gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
+```
+
+then edit the `Gemfile` to remove all the patch versions (so `1.2.3` becomes `1.2`) so that we will receive new minor versions (at least for `gym`, `deliver` and `match`). Then run:
+
+```
+bundle update
+```
 
 (n.b This will *NOT* setup codesigning for the project. Please refer to the "Codesigning" section of this ReadMe for its setup information.)
 
@@ -67,6 +80,8 @@ Note: `BUNDLE_IDENTIFIER` **Must Match** that used in xcode and on iTunes connec
 
 Codesigning is handled using the tool `match`, a product of `fastlane`. The tool `match` works by creating all of the necessary code signing files needed for development, then syncing them into one private git repository. By doing this, all developers on a team can use and access the same profiles and certificates. It also includes commands to make updating these files quick and easy.
 
+Read the [Code Signing Guide](https://codesigning.guide/) for a full overview of what `match` implements.
+
 #### 1. Create App ID
 To begin, an `App ID` for the project must be created in the iOS Developer Member Centre. To do this
 1. Login to the member centre using the teams apple account.
@@ -77,14 +92,12 @@ To begin, an `App ID` for the project must be created in the iOS Developer Membe
 #### 2. Login to Team in Xcode
 Once an App ID is set up in the developer centre, navigate to XCode and make sure you are signed into your Team's Apple ID. You can check if you have already done this by navigating to Xcode and selecting `Xcode -> Preferenes -> Accounts` and checking if your team appearing under the subheading "Apple IDs". if it doesn't, add it, by selecting the "+" button and entering the authentication details.
 
-#### 3. Create Private Certificates Repository
-You will now need to set up a private git repository, which is where your code signing documents will be securely kept. Navigate to the site where you wish to host this repository (e.g. github, bitbucket) and create an empty repository. The recommended name is "{PROJECT_NAME}-Certificates".
+#### 3. Create/Select Private Certificates Repository
+If this is the first app created this client/team, then you will need to set up the certificates repository. This is where your code signing documents will be securely kept. One repository should be used for all apps for a given client, so if an app exists for this client/team re-use the existing one and skip this step. Navigate to the site where you wish to host this repository (github is now the preferred host, not bitbucket, since we have unlimited private repos now) and create an empty repository. The recommended name is "{CLIENT_NAME}-Certificates".
 
 #### 4. Create Everything Using `match`
 
-
-- Run the following: `bundle exec match init` (Provide private certificates SSH URL when prompted)
-- Open `Matchfile` and replace the url with your private certificates URL
+- Run the following: `bundle exec match init` (Provide private certificates SSH URL when prompted). There is no harm running this command with an existing certificate repo, it won't overwrite your existing certificates. However you could probably just copy the `Matchfile` from an existing project instead.
 - Create a file named `Appfile` and add the following...
 
 ```
@@ -103,11 +116,11 @@ If you have issues and require further reading, try [here](docs/code-signing-and
 
 ## Pods & Carthage
 
-If using **CocoaPods**, the standard `bin/execute.sh setup` will handle the installation of pods specified in the Podfile.
+If using **CocoaPods**, the standard `bin/execute.sh setup` will handle the installation of pods specified in the Podfile. Note that in Circle CI builds we rely on Circle's inferred dependency steps to take advantage of their caching of the pod master spec repo, hence in `circle.yml` you will see the `bin/execute.sh setup --no-pods` which skips `bundle install` and `bundle exec pod install` commands.
 
 If using **Carthage**, the standard `bin/execute.sh setup` will handle the download and building of frameworks specified in the Cartfile. They will still need to be added to the Xcode project manually, if not yet done so.
 
-(If using Circle-CI, ensure you checkin the built frameworks to the repository, as it does not build them when running.)
+Git hooks will tar up the Carthage build output and commit it, and untar it on checkout, automagically!
 
 ---
 
@@ -120,36 +133,33 @@ follows.
 
 
 ```yaml
+
 machine:
   xcode:
     version: '7.3' # 7.3 is correct as of May 12 2016
 checkout:
   post:
-    # download ios-tools
+    # download ios-tools 
     - git submodule update --init
 dependencies:
-  override:
-    # run pods, carthage, match etc.
-    - bin/execute.sh setup:
-        timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
+  post:
+    # run match after Circle runs bundler and pods
+    - chruby 2.3.1 && bin/execute.sh setup --no-pods
 test:
   override:
-    # start the simulator before running tests. this uses iPhone 6 (9.3)
-    - xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-    - sleep 15
-    - bin/execute.sh test
+    - chruby 2.3.1 && bin/execute.sh test
     - mv build/reports/* $CIRCLE_TEST_REPORTS
+    - cp -r $CIRCLE_TEST_REPORTS $CIRCLE_ARTIFACTS
 deployment:
   itunes_connect:
     branch: release
     commands:
-      - bin/execute.sh itunes-connect --scheme "MyProject-Prod"
+      - chruby 2.3.1 && bin/execute.sh itunes-connect --scheme "MyProject-Prod"
 ```
-
 
 n.b. If you are working on an existing project that still use bitbucket for the certificate repository, you will need to add SSH keys _before_ you run `bin/execute.sh setup` in the post-checkout steps:
 
-```
+```yaml
 - echo -e '\nbitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==' >> ~/.ssh/known_hosts
 ```
 
@@ -157,8 +167,8 @@ n.b. If you are working on an existing project that still use bitbucket for the 
 
 After you've done the above step, an admin of the repository will need to go into Circle-CI and allow builds for the project.
 
-In order for CircleCI to be able to fetch this repository (ios-tools) as a submodule, you will need to [add a "user
-key" to the Project Settings](https://circleci.com/docs/external-resources).
+In order for CircleCI to be able to fetch this repository (ios-tools) and access the certificate repo as a submodule, you will need to [add a "user
+key" to the Project Settings](https://circleci.com/docs/external-resources). Delete the existing deploy key.
 
 
 ## Usage
@@ -169,8 +179,9 @@ to the functions in `bin/components`.
 - Run `bin/execute.sh setup` to setup your dev environment
 - Run `bin/update.sh` to update the project dependencies
 - Run `bin/git-update.sh` to pull changes from upstream and update the project dependencies
+- Run `bin/execute.sh test` to run unit/UI tests
 
-Once all area are setup, developers *should* simply have to run `bin/execute.sh setup` to have ios-tools setup and create everything.
+Once all areas are setup, developers *should* simply have to run `bin/execute.sh setup` after checking out the project to have ios-tools setup and create everything.
 
 ---
 
@@ -195,19 +206,14 @@ git diff origin/master
 git co master
 git pull
 cd ..
-gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
-bundle update
 ```
+
+Then follow the steps for [adding gems](#Adding-gems).
 
 ## Troubleshooting
 
-- Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're using the latest versions of the Fastlane tools:
-
-    ```sh
-    gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
-    bundle update
-    ```
-- If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [explanation](docs/manual-match.md)
+- Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're using the latest versions of the Fastlane tools by [updating gems](#Adding-gems).
+- If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ it is probably because you are creating a new certificate repository for multiple apps for the same client/team. The best resolution is probably to change over to using the existing one and recreating your provisioning profiles, but if you want to manually import your development certificate into a new match repository see [these steps](docs/manual-match.md).
 - If CircleCI is failing, and you **are using Carthage** then make sure your frameworks are being committed to Git as detailed above.
   - Also make sure you have added the Carthage Copy Frameworks run-script Build Phase in Xcode.
   - Also make sure that each Framework has its minimum deployment target set to **9.0** for Xcode 7.3.
