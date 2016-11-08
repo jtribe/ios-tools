@@ -208,7 +208,7 @@ to the functions in `bin/components`.
 - Run `bin/execute.sh test` to run unit/UI tests
 
 Once all areas are setup, developers *should* simply have to run `bin/execute.sh setup` after checking out the 
-project to have ios-tools setup and create everything.
+project to have ios-tools setup and create everything. 
 
 ---
 
@@ -239,6 +239,7 @@ Then follow the steps for [adding gems](#Adding-gems).
 
 ## Troubleshooting
 
+- If you get an error saying `Unable to satisfy the following requirements ... Note as of Cocoapods 1.0 pod repo update does not happen on pod install by default` when running `bin/execute.sh setup` then you need to update your cocoapods master spec repo by running `bundle exec pod repo update` then re-running `bin/execute.sh setup`. 
 - Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're 
 using the latest versions of the Fastlane tools by [updating gems](#Adding-gems).
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of 
