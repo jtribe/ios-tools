@@ -116,7 +116,7 @@ If using **Carthage**, the standard `bin/execute.sh setup` will handle the downl
 ### Add `circle.yml` File
 
 Add a `circle.yml` file to the root directory of the project. A typical `circle.yml` setup is as
-follows. 
+follows.
 
 
 ```yaml
@@ -125,11 +125,11 @@ machine:
     version: '7.3' # 7.3 is correct as of May 12 2016
 checkout:
   post:
-    # download ios-tools 
+    # download ios-tools
     - git submodule update --init
 dependencies:
   override:
-    # run pods, carthage, match etc. 
+    # run pods, carthage, match etc.
     - bin/execute.sh setup:
         timeout: 3600 # 1 hr - note the : above and 4 spaces indent here
 test:
@@ -207,7 +207,7 @@ bundle update
     gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
     bundle update
     ```
-- If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [StackOverflow answer](http://stackoverflow.com/a/26780411/822249)
+- If you get a message from match saying _Could not create another certificate, reached the maximum number of available certificates._ see this [explanation](docs/manual-match.md)
 - If CircleCI is failing, and you **are using Carthage** then make sure your frameworks are being committed to Git as detailed above.
   - Also make sure you have added the Carthage Copy Frameworks run-script Build Phase in Xcode.
   - Also make sure that each Framework has its minimum deployment target set to **9.0** for Xcode 7.3.
