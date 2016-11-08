@@ -89,7 +89,7 @@ the necessary code signing files needed for development, then syncing them into 
 doing this, all developers on a team can use and access the same profiles and certificates. It also includes 
 commands to make updating these files quick and easy.
 
-Read the [Code Signing Guide](https://codesigning.guide/) for a full overview of what `match` implements.
+Read the [Code Signing Guide](https://codesigning.guide/) for an understanding of the rationale behind `match`.
 
 #### 1. Create App ID
 To begin, an `App ID` for the project must be created in the iOS Developer Member Centre. To do this
@@ -106,11 +106,11 @@ Apple ID. You can check if you have already done this by navigating to Xcode and
 doesn't, add it, by selecting the "+" button and entering the authentication details.
 
 #### 3. Create/Select Private Certificates Repository
-If this is the first app created this client/team, then you will need to set up the certificates repository. This 
+If this is the first app created this client/team, you will need to create a new certificates repository. This 
 is where your code signing documents will be securely kept. One repository should be used for all apps for a 
 given client, so if an app exists for this client/team re-use the existing one and skip this step. Navigate to 
 the site where you wish to host this repository (github is now the preferred host, not bitbucket, since we have 
-unlimited private repos now) and create an empty repository. The recommended name is "{CLIENT_NAME}-Certificates".
+unlimited private repos now) and create an empty repository. The recommended name is "{CLIENT NAME}-certificates".
 
 #### 4. Create Everything Using `match`
 
@@ -243,9 +243,9 @@ Then follow the steps for [adding gems](#Adding-gems).
 using the latest versions of the Fastlane tools by [updating gems](#Adding-gems).
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of 
 available certificates._ it is probably because you are creating a new certificate repository for multiple apps 
-for the same client/team. The best resolution is probably to change over to using the existing one and recreating 
-your provisioning profiles, but if you want to manually import your development certificate into a new match 
-repository see [these steps](docs/manual-match.md).
+for the same client/team. The best resolution is probably to change over to using the existing repo and
+recreating your provisioning profiles, but if you want to manually import your development certificate into a new
+match repository see [these steps](docs/manual-match.md).
 - If CircleCI is failing, and you **are using Carthage** then make sure your frameworks are being committed to 
 Git as detailed above.
   - Also make sure you have added the Carthage Copy Frameworks run-script Build Phase in Xcode.
