@@ -25,6 +25,7 @@ function script_usage() {
   echo -n "Usage:
   Available tasks:
     setup                           Initial setup of development environment
+      -np|--no-pods                   Skip bundler and pod steps
     update                          Update the $PROJECT installation
       -ng|--no-git                    Skip updating Git repository
     test|unit-tests|ui-tests        Run all tests/unit tests/ui tests
@@ -64,6 +65,10 @@ function parse_params() {
       -d|--destination)
         destination="$1"
         shift
+        ;;
+      -np|--no-pods)
+        check_tasksel 'setup'
+        no_pods=true
         ;;
       -ng|--no-git)
         check_tasksel 'update'
