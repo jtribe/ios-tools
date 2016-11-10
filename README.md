@@ -240,8 +240,20 @@ Then follow the steps for [adding gems](#Adding-gems).
 ## Troubleshooting
 
 - If you get an error saying `Unable to satisfy the following requirements ... Note as of Cocoapods 1.0 pod repo update does not happen on pod install by default` when running `bin/execute.sh setup` then you need to update your cocoapods master spec repo by running `bundle exec pod repo update` then re-running `bin/execute.sh setup`. 
-- Apple change things all the time. If you're having troubles then the first thing to do is make sure that we're 
-using the latest versions of the Fastlane tools by [updating gems](#Adding-gems).
+- Apple change things all the time. If you're having trouble deploying to the App Store then the first thing to do is
+make sure that we're using the latest versions of the Fastlane tools by [updating gems](#Adding-gems).
+- If you are having issues with codesigning and debugging on a device, follow these steps:
+  1. Make sure the device is added to the developer portal and that it is then also added to the provisioning profile.
+  2. Run `bundle exec match development --force_for_new_devices`. 
+  3. [Check your Xcode setup](https://docs.fastlane.tools/codesigning/xcode-project/#xcode-7-and-lower) which is different
+    for Xcode 8.
+  4. Make sure you only have 1 developer certificate installed in Xcode. Go to Preferences, then Account, select the
+  `ios@jtribe.com.au` account then click `View Details`. Delete all but the most recent development certificate for the
+  team you are working with.
+  5. In the project settings, go to the `Code Signing` section and make sure the Provisioning Profile is set to `match Development <your_bundle_id>` and `match AppStore <your_bundle_id>` for both `Debug` and `Release` respectively. 
+  6. Under Code Signing Identity, choose the `iPhone Developer: <your_team> (<team_id>)` identity for `Debug` and `iPhone Distribution: <your_team> (<team_id>)` for `Release`.
+  7. Repeat steps `5.` and `6.` for each app and test target in the workspace.
+  8. Build and run!
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of 
 available certificates._ it is probably because you are creating a new certificate repository for multiple apps 
 for the same client/team. The best resolution is probably to change over to using the existing repo and
