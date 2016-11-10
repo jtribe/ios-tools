@@ -252,7 +252,7 @@ make sure that we're using the latest versions of the Fastlane tools by [updatin
   team you are working with.
   5. In the project settings, go to the `Code Signing` section and make sure the Provisioning Profile is set to `match Development <your_bundle_id>` and `match AppStore <your_bundle_id>` for both `Debug` and `Release` respectively. 
   6. Under Code Signing Identity, choose the `iPhone Developer: <your_team> (<team_id>)` identity for `Debug` and `iPhone Distribution: <your_team> (<team_id>)` for `Release`.
-  7. Repeat steps `5.` and `6.` for each app and test target in the workspace.
+  7. Repeat steps `v.` and `vi.` for each app and test target in the workspace.
   8. Build and run!
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of 
 available certificates._ it is probably because you are creating a new certificate repository for multiple apps 
