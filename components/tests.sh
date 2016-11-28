@@ -16,8 +16,8 @@ function ui_tests() {
     msg 'Configuring simulator'
     killall Simulator || echo "No simulator running"
     defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
-    xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-    sleep 60
+#    xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
+#    sleep 60
 
     msg 'Running UI tests'
     run_tests "$UI_TEST_SCHEME"
