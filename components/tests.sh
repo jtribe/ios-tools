@@ -12,12 +12,15 @@ function unit_tests() {
 function ui_tests() {
   comp_init 'test'
   if [[ -n $UI_TEST_SCHEME ]]; then
-    # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
-    msg 'Configuring simulator'
-    killall Simulator || echo "No simulator running"
-    defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
-#    xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-#    sleep 60
+
+    if [[ $restart_simulator ]]; then
+      # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
+      msg 'Configuring simulator'
+      killall Simulator || echo "No simulator running"
+      defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
+      xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
+      sleep 15
+    fi
 
     msg 'Running UI tests'
     run_tests "$UI_TEST_SCHEME"
