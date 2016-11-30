@@ -3,7 +3,7 @@ function itunes_connect() {
   check_deps 'bundle'
 
   if [ -z "$scheme" ]; then
-    scheme=$SCHEME
+    scheme=$PROD_SCHEME
   fi
 
   # make sure that we don't have a shallow clone so that bundle-version.sh has the whole history

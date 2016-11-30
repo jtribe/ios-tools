@@ -40,7 +40,7 @@ function script_usage() {
       -v|--verbose                    Verbose output
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
-      -s|--scheme                     The scheme to build (default: $SCHEME)
+      -s|--scheme                     The scheme to build (default: $PROD_SCHEME)
 
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output

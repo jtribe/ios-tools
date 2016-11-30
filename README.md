@@ -66,9 +66,9 @@ Open it up and set the variables to the appropriate values. It will look somethi
 export PROJECT="MyAwesomeProject" # the name of the .xcodeproj, not the repo
 # export WORKSPACE="$PROJECT.xcworkspace" # Comment this out for no workspace.
 export SCHEME_BASE="${PROJECT}"
-export SCHEME="${SCHEME_BASE}-PROD"
-export TEST_SCHEME="${SCHEME_BASE}-DEV"
-export UI_TEST_SCHEME="${PROJECT}UITests" # Comment this out for no UI tests
+export PROD_SCHEME="${SCHEME_BASE}-PROD"
+export UNIT_TEST_SCHEME="${SCHEME_BASE}-DEV"
+export UI_TEST_SCHEME="${SCHEME_BASE}-UITests" # Comment this out for no UI tests
 export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"

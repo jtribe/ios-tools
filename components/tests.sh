@@ -1,10 +1,10 @@
 function unit_tests() {
   comp_init 'test'
-  if [[ -n $TEST_SCHEME ]]; then
+  if [[ -n $UNIT_TEST_SCHEME ]]; then
     msg 'Running unit tests'
-    run_tests "$TEST_SCHEME"
+    run_tests "$UNIT_TEST_SCHEME"
   else
-    msg 'No TEST_SCHEME defined - skipping unit tests'
+    msg 'No UNIT_TEST_SCHEME defined - skipping unit tests'
   fi
   comp_deinit
 }
