@@ -181,11 +181,11 @@ deployment:
   itunes_connect_alpha:
     branch: master
     commands:
-      - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-ALPHA"
+      - bin/execute.sh itunes-connect --scheme MyProject-ALPHA
   itunes_connect_prod:
     branch: release/beta
     commands:
-      - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-PROD"
+      - bin/execute.sh itunes-connect --scheme MyProject-PROD
 ```
 
 n.b. If you are working on an existing project that still use bitbucket for the certificate repository, you will 
