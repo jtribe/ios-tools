@@ -168,17 +168,24 @@ checkout:
 dependencies:
   post:
     # run match after Circle runs bundler and pods
-    - chruby 2.3.1 && bin/execute.sh setup --no-pods
+    - bin/execute.sh setup --no-pods
 test:
+  pre:
+    - xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
+    - sleep 15
   override:
-    - chruby 2.3.1 && bin/execute.sh test
+    - bin/execute.sh test
     - mv build/reports/* $CIRCLE_TEST_REPORTS
     - cp -r $CIRCLE_TEST_REPORTS $CIRCLE_ARTIFACTS
 deployment:
-  itunes_connect:
-    branch: release
+  itunes_connect_alpha:
+    branch: master
     commands:
-      - chruby 2.3.1 && bin/execute.sh itunes-connect --scheme "MyProject-Prod"
+      - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-ALPHA"
+  itunes_connect_prod:
+    branch: release/beta
+    commands:
+      - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-PROD"
 ```
 
 n.b. If you are working on an existing project that still use bitbucket for the certificate repository, you will 
