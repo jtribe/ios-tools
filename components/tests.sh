@@ -1,10 +1,10 @@
 function unit_tests() {
   comp_init 'test'
-  if [[ -n $TEST_SCHEME ]]; then
+  if [[ -n $UNIT_TEST_SCHEME ]]; then
     msg 'Running unit tests'
-    run_tests "$TEST_SCHEME"
+    run_tests "$UNIT_TEST_SCHEME"
   else
-    msg 'No TEST_SCHEME defined - skipping unit tests'
+    msg 'No UNIT_TEST_SCHEME defined - skipping unit tests'
   fi
   comp_deinit
 }
@@ -12,12 +12,15 @@ function unit_tests() {
 function ui_tests() {
   comp_init 'test'
   if [[ -n $UI_TEST_SCHEME ]]; then
-    # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
-    msg 'Configuring simulator'
-    killall Simulator || echo "No simulator running"
-    defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
-#    xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-#    sleep 60
+
+    if [[ $restart_simulator ]]; then
+      # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
+      msg 'Configuring simulator'
+      killall Simulator || echo "No simulator running"
+      defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
+      xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
+      sleep 15
+    fi
 
     msg 'Running UI tests'
     run_tests "$UI_TEST_SCHEME"

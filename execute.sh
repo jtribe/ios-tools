@@ -31,6 +31,7 @@ function script_usage() {
     test|unit-tests|ui-tests        Run all tests/unit tests/ui tests
       -c|--clean                      Clean before building
       -d|--destination                The destination (default: $DESTINATION)
+      -r|--restart-simulator          Start the iOS simulator and wait before running tests
     carthage                        Run carthage bootstrap
       -v|--verbose                    Verbose output
     carthage-update                 Run carthage update
@@ -39,7 +40,7 @@ function script_usage() {
       -v|--verbose                    Verbose output
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
-      -s|--scheme                     The scheme to build (default: $SCHEME)
+      -s|--scheme                     The scheme to build (default: $PROD_SCHEME)
 
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output
@@ -69,6 +70,10 @@ function parse_params() {
       -np|--no-pods)
         check_tasksel 'setup'
         no_pods=true
+        ;;
+      -r|--restart-simulator)
+        check_tasksel 'test'
+        restart_simulator=true
         ;;
       -ng|--no-git)
         check_tasksel 'update'
