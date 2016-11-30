@@ -177,10 +177,11 @@ test:
     - mv build/reports/* $CIRCLE_TEST_REPORTS
     - cp -r $CIRCLE_TEST_REPORTS $CIRCLE_ARTIFACTS
 deployment:
-  itunes_connect:
+  itunes_connect_alpha:
     branch: master
     commands:
       - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-ALPHA"
+  itunes_connect_prod:
     branch: release/beta
     commands:
       - bin/execute.sh itunes-connect --scheme "${SCHEME_BASE}-PROD"
