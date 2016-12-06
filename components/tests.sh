@@ -16,10 +16,10 @@ function ui_tests() {
     if [[ $restart_simulator ]]; then
       # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
       msg 'Configuring simulator'
-      killall Simulator || echo "No simulator running"
+      killall Simulator || echo "No simulator running" 
+      killall "iOS Simulator" || echo "No iOS Simulator running"
       defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
-      xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-      sleep 60
+      xcrun instruments -w 'iPhone 6 (9.3)' || true && sleep 60
     fi
 
     msg 'Running UI tests'
