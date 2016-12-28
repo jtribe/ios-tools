@@ -13,15 +13,6 @@ function ui_tests() {
   comp_init 'test'
   if [[ -n $UI_TEST_SCHEME ]]; then
 
-    if [[ $restart_simulator ]]; then
-      # Make sure the simulator has hardware keyboard disabled for UI tests and give it time to launch
-      msg 'Configuring simulator'
-      killall Simulator && sleep 1 || echo "No simulator running" 
-      killall "iOS Simulator" && sleep 1 || echo "No iOS Simulator running" 
-      defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 1
-      xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 60
-    fi
-
     msg 'Running UI tests'
     run_tests "$UI_TEST_SCHEME"
   else
@@ -41,6 +32,16 @@ function run_tests() {
   fi
   if [[ -n $WORKSPACE ]]; then
     workspace="-workspace $WORKSPACE"
+  fi
+
+  if [[ $restart_simulator ]]; then
+    # Make sure the simulator has hardware keyboard disabled for tests and give it time to launch
+    msg 'Configuring simulator'
+    killall Simulator && sleep 1 || echo "No simulator running" 
+    killall "iOS Simulator" && sleep 1 || echo "No iOS Simulator running" 
+    xcrun simctl erase all
+    defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 1
+    xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 10
   fi
 
   xcodebuild \
