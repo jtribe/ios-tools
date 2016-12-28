@@ -37,8 +37,8 @@ function run_tests() {
   if [[ $restart_simulator ]]; then
     # Make sure the simulator has hardware keyboard disabled for tests and give it time to launch
     msg 'Configuring simulator'
-    killall Simulator && sleep 1 || echo "No simulator running" 
-    killall "iOS Simulator" && sleep 1 || echo "No iOS Simulator running" 
+    killall Simulator && sleep 5 || echo "No simulator running" 
+    killall "iOS Simulator" && sleep 5 || echo "No iOS Simulator running" 
     xcrun simctl erase all
     defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 10
     xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 60
