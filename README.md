@@ -262,6 +262,7 @@ make sure that we're using the latest versions of the Fastlane tools by [updatin
   6. Under Code Signing Identity, choose the `iPhone Developer: <your_team> (<team_id>)` identity for `Debug` and `iPhone Distribution: <your_team> (<team_id>)` for `Release`.
   7. Repeat steps `v.` and `vi.` for each app and test target in the workspace.
   8. Build and run!
+- If you get a message saying `FastlaneCore::Interface::FastlaneCrash: [!] No code signing identity found and can not create a new one because you enabled 'readonly'` when running `bin/execute.sh setup` it is because match needs to create a new certificate or provisioning profile, which the standard setup script is unable to do. Run `bundle exec match development` or `bundle exec match appstore`, depending on which you want to create (there's no harm in just running both to be sure).
 - If you get a message from match saying _Could not create another certificate, reached the maximum number of 
 available certificates._ it is probably because you are creating a new certificate repository for multiple apps 
 for the same client/team. The best resolution is probably to change over to using the existing repo and
