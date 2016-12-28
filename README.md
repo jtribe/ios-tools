@@ -162,7 +162,7 @@ follows.
 
 machine:
   xcode:
-    version: '7.3' # 7.3 is correct as of May 12 2016
+    version: '7.3.1'
 checkout:
   post:
     # download ios-tools 
@@ -172,13 +172,12 @@ dependencies:
     # run match after Circle runs bundler and pods
     - bin/execute.sh setup --no-pods
 test:
-  pre:
-    - xcrun instruments -w '547B1B63-3F66-4E5B-8001-F78F2F1CDEA7' || true
-    - sleep 15
   override:
-    - bin/execute.sh test
+    - bin/execute.sh test --restart-simulator
     - mv build/reports/* $CIRCLE_TEST_REPORTS
     - cp -r $CIRCLE_TEST_REPORTS $CIRCLE_ARTIFACTS
+    - find /Users/distiller/Library/Developer/Xcode/DerivedData/MyProject-* -name "*.log" -exec cp '{}' $CIRCLE_ARTIFACTS \;
+    - cp /Users/distiller/Library/Logs/CoreSimulator/CoreSimulator.log $CIRCLE_ARTIFACTS
 deployment:
   itunes_connect_alpha:
     branch: master
@@ -189,6 +188,8 @@ deployment:
     commands:
       - bin/execute.sh itunes-connect --scheme MyProject-PROD
 ```
+
+Replacing `MyProject` above with your project name.
 
 n.b. If you are working on an existing project that still use bitbucket for the certificate repository, you will 
 need to add SSH keys _before_ you run `bin/execute.sh setup` in the post-checkout steps:
