@@ -19,7 +19,7 @@ function ui_tests() {
       killall Simulator && sleep 1 || echo "No simulator running" 
       killall "iOS Simulator" && sleep 1 || echo "No iOS Simulator running" 
       defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 1
-      xcrun instruments -w 'iPhone 6 (9.3)' || true && sleep 60
+      xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 60
     fi
 
     msg 'Running UI tests'
