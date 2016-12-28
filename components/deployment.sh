@@ -10,7 +10,7 @@ function itunes_connect() {
   git fetch --unshallow || true
 
   # set up certificates and provisioning profiles
-  bundle exec match appstore --readonly --verbose
+  bundle exec fastlane match appstore --readonly --verbose
   security find-identity -p codesigning
 
   msg "Building archive"
@@ -21,13 +21,13 @@ function itunes_connect() {
   if [[ "$WORKSPACE" ]]; then
     workspace="--workspace $WORKSPACE"
   fi
-  bundle exec gym build \
+  bundle exec fastlane gym build \
     $workspace \
     --scheme "$scheme" \
     $clean_build
 
   msg "Submitting to iTunes Connect"
-  bundle exec deliver run \
+  bundle exec fastlane deliver run \
     --app_identifier "$BUNDLE_IDENTIFIER" \
     --username "$ITC_USER" \
     --force true

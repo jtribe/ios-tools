@@ -40,6 +40,8 @@ common tasks.
 
 ### Adding gems
 
+`ios-tools` requires gym 2.x, deliver 2,x and match 1.x (these all require fastlane 2.x)
+
 To create a `Gemfile` use `gemrat`:
 
 ```

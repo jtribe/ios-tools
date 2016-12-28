@@ -18,8 +18,8 @@ function setup() {
   fi
 
   if [[ -f Matchfile ]]; then
-    bundle exec match development --readonly $verboseArg
-    bundle exec match appstore --readonly $verboseArg
+    bundle exec fastlane match development --readonly $verboseArg
+    bundle exec fastlane match appstore --readonly $verboseArg
   fi
 
   if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
