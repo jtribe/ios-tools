@@ -49,6 +49,14 @@ function run_tests() {
       -scheme "$scheme" \
       -sdk iphonesimulator \
       -destination "$destination" \
-      $clean_build test \
+      $clean_build build build-for-testing \
+    | bundle exec xcpretty --report junit
+
+  xcodebuild \
+      $workspace \
+      -scheme "$scheme" \
+      -sdk iphonesimulator \
+      -destination "$destination" \
+      $clean_build test-without-building \
     | bundle exec xcpretty --report junit
 }
