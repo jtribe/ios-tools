@@ -41,7 +41,7 @@ function run_tests() {
     killall "iOS Simulator" && sleep 5 || echo "No iOS Simulator running" 
     xcrun simctl erase all
     defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 10
-    xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 60
+    xcrun instruments -w 'iPhone 6s Plus (10.2)' || true && sleep 60
   fi
 
   xcodebuild \
@@ -49,14 +49,6 @@ function run_tests() {
       -scheme "$scheme" \
       -sdk iphonesimulator \
       -destination "$destination" \
-      $clean_build build build-for-testing \
-    | bundle exec xcpretty --report junit
-
-  xcodebuild \
-      $workspace \
-      -scheme "$scheme" \
-      -sdk iphonesimulator \
-      -destination "$destination" \
-      $clean_build test-without-building \
+      $clean_build test \
     | bundle exec xcpretty --report junit
 }
