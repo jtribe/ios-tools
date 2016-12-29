@@ -39,7 +39,10 @@ function run_tests() {
     msg 'Configuring simulator'
     killall Simulator && sleep 5 || echo "No simulator running" 
     killall "iOS Simulator" && sleep 5 || echo "No iOS Simulator running" 
-    defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 
+    xcrun simctl erase all
+    defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 10
+#    xcrun instruments -w 'iPhone 6s Plus (10.2)' || true && sleep 60
+
   fi
 
   xcodebuild \
