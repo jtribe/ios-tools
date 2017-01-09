@@ -144,9 +144,9 @@ caching of the pod master spec repo, hence in `circle.yml` you will see the `bin
 which skips `bundle install` and `bundle exec pod install` commands.
 
 If using **Carthage**, the standard `bin/execute.sh setup` will handle the download and building of frameworks 
-specified in the Cartfile. They will still need to be added to the Xcode project manually, if not yet done so.
+specified in the Cartfile. They will still need to be added to the Xcode project manually, if not yet done so. If the `/Carthage` directory already exists (ie. was cached by CI) a copy of the `Cartfile.resolved` stored in `/Carthage` will detected if the `Cartfile` has changed and only build Carthage dependencies if they're out of date or missing.
 
-Git hooks will tar up the Carthage build output and commit it, and untar it on checkout, automagically!
+NOTE: When updating Carthage libraries and rebuilding, it is best practise to keep this in a separate commit/PR to keep the noise out of code reviews.
 
 ---
 
