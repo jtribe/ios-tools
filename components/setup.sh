@@ -22,11 +22,6 @@ function setup() {
     bundle exec fastlane match appstore --readonly $verboseArg
   fi
 
-  if [[ -f Cartfile && ! -f .git/hooks/post-checkout ]]; then
-    msg 'Installing Git hooks'
-    symlinkGitHooks
-  fi
-
   comp_deinit
 
   if [[ -f Cartfile ]]; then
