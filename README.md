@@ -171,6 +171,8 @@ dependencies:
   post:
     # run match after Circle runs bundler and pods
     - bin/execute.sh setup --no-pods
+  cache_directories:
+    - "Carthage"
 test:
   override:
     - bin/execute.sh test --restart-simulator

@@ -24,19 +24,5 @@ function setup() {
 
   comp_deinit
 
-  if [[ -f Cartfile ]]; then
-    if [[ -f Carthage/Build.tar.gz ]]; then
-      .git/hooks/post-checkout
-    fi
-    if [[ ! -d "Carthage/Build" ]]; then
-      carthage_bootstrap
-    fi
-    .git/hooks/pre-commit
-  fi
-}
-
-function symlinkGitHooks() {
-  hooksDir=$project_dir/.git/hooks
-  mkdir -p $hooksDir
-  ln -s ../../bin/git-hooks/{pre-commit,post-checkout} $hooksDir
+  carthage_bootstrap
 }
