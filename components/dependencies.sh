@@ -18,9 +18,14 @@ function pod_install() {
 function carthage_bootstrap() {
   comp_init 'dependencies'
   if [[ -f Cartfile ]]; then
-    check_deps 'carthage'
-    msg 'Installing Carthage packages'
-    run_carthage bootstrap
+    if ! cmp -s Cartfile.resolved Carthage/Cartfile.resolved; then
+      check_deps 'carthage'
+      msg 'Installing Carthage packages'
+      run_carthage bootstrap
+      cp Cartfile.resolved Carthage
+    else
+      msg 'Carthage packages up to date - skipping'
+    fi
   fi
   comp_deinit
 }
