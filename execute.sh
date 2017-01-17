@@ -268,9 +268,15 @@ script_init
 
 cd "$project_dir"
 source .config.sh
+
+# Workaround to allow whitespace in $script_dir
+OIFS="$IFS"
+IFS=$'\n'
 for file in $script_dir/components/*.sh; do
   source $file
 done
+IFS="$OIFS"
+
 
 munge_params
 parse_params $@
