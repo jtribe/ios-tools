@@ -4,6 +4,7 @@ function pod_install() {
   if [[ -f Podfile ]]; then
     check_deps 'pod'
     msg 'Installing CocoaPods'
+    old_args=$args
     if [[ -z $clean ]]; then
       args="--no-repo-update $args"
     fi
@@ -11,6 +12,7 @@ function pod_install() {
       args="--verbose $args"
     fi
     bundle exec pod install $args $@
+    args=$old_args
   fi
   comp_deinit
 }
