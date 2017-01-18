@@ -33,7 +33,7 @@ function setup() {
 function symlinkGitHooks() {
   hooksDir="$project_dir"/.git/hooks
   mkdir -p "$hooksDir"
-  ln -s ../../bin/git-hooks/post-checkout "$hooksDir"
-  ln -s ../../bin/git-hooks/post-merge "$hooksDir"
+  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-checkout
+  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-merge
 }
 
