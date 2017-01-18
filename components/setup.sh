@@ -27,12 +27,12 @@ function setup() {
 
   comp_deinit
 
-  carthage_bootstrap
+#  carthage_bootstrap
 }
 
 function symlinkGitHooks() {
-  hooksDir=$project_dir/.git/hooks
-  mkdir -p $hooksDir
-  ln -s ../../bin/git-hooks/post-checkout $hooksDir
+  hooksDir="$project_dir"/.git/hooks
+  mkdir -p "$hooksDir"
+  ln -s ../../bin/git-hooks/post-checkout "$hooksDir"
 }
 
