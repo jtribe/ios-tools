@@ -27,7 +27,7 @@ function setup() {
 
   comp_deinit
 
-#  carthage_bootstrap
+  carthage_bootstrap
 }
 
 function symlinkGitHooks() {
