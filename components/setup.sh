@@ -22,7 +22,17 @@ function setup() {
     bundle exec fastlane match appstore --readonly $verboseArg
   fi
 
+  msg 'Installing Git hooks'
+  symlinkGitHooks
+
   comp_deinit
 
   carthage_bootstrap
 }
+
+function symlinkGitHooks() {
+  hooksDir=$project_dir/.git/hooks
+  mkdir -p $hooksDir
+  ln -s ../../bin/git-hooks/post-checkout $hooksDir
+}
+
