@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-tar --options mtree:!all --exclude=.DS_Store -C ./Carthage -c ./Build/iOS | gzip -n > ./Carthage/Build.tar.gz
