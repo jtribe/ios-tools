@@ -71,7 +71,8 @@ export SCHEME_BASE="${PROJECT}"
 export PROD_SCHEME="${SCHEME_BASE}-PROD"
 export UNIT_TEST_SCHEME="${SCHEME_BASE}-DEV"
 export UI_TEST_SCHEME="${SCHEME_BASE}-UITests" # Comment this out for no UI tests
-export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.2"
+export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6s Plus,OS=10.1"
+export SIMULATOR_NAME="iPhone 6s Plus (10.1)" # Must match $TEST_DESTINATION device/OS version
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="ios@jtribe.com.au" # iTunes Connect User
@@ -162,7 +163,7 @@ follows.
 
 machine:
   xcode:
-    version: '7.3.1'
+    version: '8.2'
 checkout:
   post:
     # download ios-tools 
@@ -188,7 +189,7 @@ deployment:
   itunes_connect_prod:
     branch: release/beta
     commands:
-      - bin/execute.sh itunes-connect --scheme MyProject-PROD
+     - bin/execute.sh itunes-connect --scheme MyProject-PROD
 ```
 
 Replacing `MyProject` above with your project name.
