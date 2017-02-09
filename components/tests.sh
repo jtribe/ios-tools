@@ -33,15 +33,21 @@ function run_tests() {
   if [[ -n $WORKSPACE ]]; then
     workspace="-workspace $WORKSPACE"
   fi
+  if [[ -n $SIMULATOR_NAME ]]; then
+    simulator_name='iPhone 6s Plus (10.2)'
+  else
+    simulator_name=$SIMULATOR_NAME
+  fi
 
   if [[ $restart_simulator ]]; then
-    # Make sure the simulator has hardware keyboard disabled for tests and give it time to launch
+    # Make sure the simulator has hardware keyboard disabled for tests
     msg 'Configuring simulator'
     killall Simulator && sleep 5 || echo "No simulator running" 
     killall "iOS Simulator" && sleep 5 || echo "No iOS Simulator running" 
     xcrun simctl erase all
     defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0 && sleep 10
-    xcrun instruments -w 'iPhone 6s Plus (9.3)' || true && sleep 60
+    xcrun instruments -w "$simulator_name" || true && sleep 60
+
   fi
 
   xcodebuild \
