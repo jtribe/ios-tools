@@ -20,6 +20,13 @@ xcuserdata/
 *.xcscmblueprint
 *.DS_Store
 
+# Env variables file
+.env
+!.env.sample
+
+# Buid products
+*.xcarchive
+
 ## Obj-C/Swift specific
 *.hmap
 *.ipa
@@ -28,6 +35,9 @@ xcuserdata/
 # CocoaPods
 Pods/
 
-# Carthage
-Carthage/Build/
-Carthage/Checkouts/
+# Ignore Carthage checkouts and builds
+Carthage/
+
+# Override Carthage ignore for the Cartfile.resolved, which we can use to determine 
+# if rebuilding Carthage dependencies is necessary or not
+!Carthage/Cartfile.resolved
