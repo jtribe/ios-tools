@@ -226,13 +226,22 @@ project to have ios-tools setup and create everything.
 
 ---
 
-## Bundle Versions
+## Bundle Versions/Build Numbers
 
-The Bundle Versions are based on git commits (see `xcode/bundle-version.sh`). You can work out the
-commit for a Bundle Version by entering it into the following command:
+The Build Numbers are based on git commits (see `xcode/bundle-version.sh`). You can work out the
+commit for a Build Number for a production or beta build by entering it into the following command,
+substituting `XXXX` for the build number:
 
 ```bash
-git log `git rev-list origin/master | awk "NR == $bundle_version"`
+git rev-list origin/release/beta | head -XXXX | tail -1
+
+```
+
+and for an alpha build:
+
+```bash
+git rev-list origin/master | head -XXXX | tail -1
+
 ```
 
 ---
