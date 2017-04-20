@@ -9,10 +9,8 @@ function setup() {
     # This is the bundle command that circle uses 
     bundle check || bundle install --jobs 4 --retry 3
 
-    bundle exec pod install
-
     # pod install may take 25 mins on circle if it has to download the master spec repo             
-    bundle exec pod check || bundle exec pod install --repo-update $verboseArg
+    bundle exec pod install || bundle exec pod install --repo-update $verboseArg
   fi
 
   if [[ -f Matchfile ]]; then
