@@ -10,7 +10,7 @@ function setup() {
     bundle check || bundle install --jobs 4 --retry 3
 
     # pod install may take 25 mins on circle if it has to download the master spec repo             
-    bundle exec pod install || bundle exec pod install --repo-update $verboseArg
+    bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
   fi
 
   if [[ -f Matchfile ]]; then
