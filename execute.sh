@@ -41,6 +41,7 @@ function script_usage() {
     clean                           Remove DerivedData directory
     itunes-connect                  Send a new build to iTunes Connect
       -s|--scheme                     The scheme to build (default: $PROD_SCHEME)
+      -b|--build-number               If provided tags the git commit with the build number
 
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output
@@ -78,6 +79,11 @@ function parse_params() {
       -ng|--no-git)
         check_tasksel 'update'
         no_git=true
+        ;;
+      -b|--build-number)
+        check_tasksel 'itunes-connect'
+        build_number="$1"
+        shift
         ;;
       -s|--scheme)
         check_tasksel 'itunes-connect'
