@@ -259,21 +259,6 @@ The Build Numbers are based either on CI/CD build numbers or on git commits (see
 passed into the first argument of this script, this number will be used. If no argument exists, the script will calculate it
 from the git commits (to remain backwards compatible with projects that don't pass in the CI number).
 
-You can work out the commit for a Build Number for a production or beta build by entering it into the following command,
-substituting `XXXX` for the build number:
-
-```bash
-git rev-list origin/release/beta | head -XXXX | tail -1
-
-```
-
-and for an alpha build:
-
-```bash
-git rev-list origin/master | head -XXXX | tail -1
-
-```
-
 ---
 
 ### Upgrading ios-tools
