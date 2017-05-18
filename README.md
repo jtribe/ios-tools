@@ -255,10 +255,6 @@ has been sent out to anyone. To ensure this happens, the deploy script should be
 ```
 bin/execute.sh itunes-connect --scheme=MyProject-Release-PROD -b $CIRCLE_BUILD_NUM
 ```
-The Build Numbers are based either on CI/CD build numbers or on git commits (see `scripts/bundle-version.sh`). If a number is 
-passed into the first argument of this script, this number will be used. If no argument exists, the script will calculate it
-from the git commits (to remain backwards compatible with projects that don't pass in the CI number).
-
 ---
 
 ### Upgrading ios-tools
