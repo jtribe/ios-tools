@@ -50,10 +50,10 @@ provisioning profiles.
 
 - `bundle exec match init` to set up the certificates repo and create the `Matchfile`
   - This will ask you for the URL to the certificates repository. Make sure that you use the **SSH URL**
-    for the repo so that we can provide CI with an SSH key to download it. 
-  - If this is the first app/project for this client/team in `iTunes Connect`, you need to create the repo on 
+    for the repo so that we can provide CI with an SSH key to download it.
+  - If this is the first app/project for this client/team in `iTunes Connect`, you need to create the repo on
   github first.
-  - There should only be one repo per client/team. Running `match` and passing in the git url 
+  - There should only be one repo per client/team. Running `match` and passing in the git url
     of an existing certificate repo will not affect the repo, it just sets the URL in the `Matchfile`.
   - Alternatively you could copy the `Matchfile` from an existing app for the same client/team.
 
@@ -77,27 +77,27 @@ apple_id "ios@jtribe.com.au"
 team_id "12A345B6CD" # The Team ID as displayed in the Member Center - Login and click MEMBERSHIP in the sidebar.
 itc_team_id "123456789"
 
-# itc_team_id can ONLY BE FOUND when CircleCI fails to login to iTunes Connect the first time. You'll see a list 
-of teams available, and next to the name in brackets is a numerical value. Take the value you want, and use it 
+# itc_team_id can ONLY BE FOUND when CircleCI fails to login to iTunes Connect the first time. You'll see a list
+of teams available, and next to the name in brackets is a numerical value. Take the value you want, and use it
 for itc_team_id.
 
 ```
 
-- _**Special Note: `app_identifier` and `apple_id` should match the values for `BUNDLE_IDENTIFIER` and `ITC_USER` 
+- _**Special Note: `app_identifier` and `apple_id` should match the values for `BUNDLE_IDENTIFIER` and `ITC_USER`
 in the `.config.sh` file.**_
 
 - Now run `bundle exec match development` to create the Debug certificate
-  - This will add devices to the provisioning profile, however this fails if none exist. So 
+  - This will add devices to the provisioning profile, however this fails if none exist. So
   [add your device](#adding-devices) to the Dev Center first.
-  - You can skip adding it to the provisioning profile because 
+  - You can skip adding it to the provisioning profile because
   `bundle exec match development --force-for-new-devices` will do this for you.
   - Store the passphrase in our password tool using a Password item named e.g. "PROJECT Certificates Passphrase"
 - Run `bundle exec match appstore` to create the Distribution certificate. **This is needed for submission**
 
 #### Create the Gymfile
 
-Fastlane tool `gym` needs a little bit of configuration. It was recommended by a forum user to use the `legacy 
-build api` during iTunes Connect submission because the new method has many bugs and issues. To do this, create a 
+Fastlane tool `gym` needs a little bit of configuration. It was recommended by a forum user to use the `legacy
+build api` during iTunes Connect submission because the new method has many bugs and issues. To do this, create a
 new file **in the root directory** of the project called `Gymfile` and paste into it the following:
 
 ```text
@@ -111,17 +111,17 @@ Save the file, and exit. Make sure this is committed to the repo. CircleCI will 
 
 ## Configure the Xcode Project
 
-- You might need to restart Xcode (seriously!) or run `bundle exec match development` and `bundle exec match 
+- You might need to restart Xcode (seriously!) or run `bundle exec match development` and `bundle exec match
 appstore` again.
-  - If your device still hasn't been added to the `development` provisioning profile, add 
+  - If your device still hasn't been added to the `development` provisioning profile, add
   `--force-for-new-devices` to the `bundle exec match development` command, then run it again.
 - In Xcode
-	- Go to the General tab and ensure that Version is "a period-separated list of at most three non-negative 
+	- Go to the General tab and ensure that Version is "a period-separated list of at most three non-negative
   integers".
-	- In laymans terms, this is Semantic Versioning. Keep it in the following format: `X.Y.Z` where X Y and Z are 
+	- In laymans terms, this is Semantic Versioning. Keep it in the following format: `X.Y.Z` where X Y and Z are
   non-negative, and will increase accordingly over time.
   - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
-    the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
+    the script `scripts/bundle-version.sh`
   - Go to Build Settings > Code Signing
   	- Set the Provisioning Profiles:
       - Debug: `match Development {{bundle ID}}`
