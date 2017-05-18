@@ -9,8 +9,6 @@ if [[ -z $bundle_version ]]; then
   bundle_version=$("$git" rev-list HEAD --count)
 fi
 
-echo $bundle_version
-exit
 target_plist="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
 dsym_plist="$DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME/Contents/Info.plist"
 
