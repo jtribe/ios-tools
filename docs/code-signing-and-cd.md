@@ -121,7 +121,7 @@ appstore` again.
 	- In laymans terms, this is Semantic Versioning. Keep it in the following format: `X.Y.Z` where X Y and Z are 
   non-negative, and will increase accordingly over time.
   - Go to Build Settings > Build Phases and add a Build Phase called "Set Bundle Version" that runs
-    the script `bin/xcode/bundle-version.sh` (see [below](#bundle-versions) for more info)
+    the script `bin/scripts/bundle-version.sh` (see [below](#bundle-versions) for more info)
   - Go to Build Settings > Code Signing
   	- Set the Provisioning Profiles:
       - Debug: `match Development {{bundle ID}}`
