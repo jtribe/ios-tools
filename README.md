@@ -15,7 +15,7 @@ These scripts are added as a git submodule to the iOS project.
 
 ## Prerequisites
 - Xcode Command Line Tools (Can be installed using `xcode-select --install`)
-- Ruby V2.3 (Suggested install with Homebrew)
+- Ruby v2.4 (Suggested install with Homebrew)
 - Gemrat (Can be installed using `gem install bundler gemrat`)
 
 (If you're using rvm to manage ruby versions and fish shell instead of bash, you can get rvm support under fish 
@@ -37,6 +37,12 @@ bundle init
 
 This will result in a "bin" folder appearing, which will contain the shell files to be run in order to perform 
 common tasks.
+
+### Specifying a ruby version
+
+Create a `.ruby-version` file in the root of your repository with the following contents (assuming you want 2.4.0).
+
+```2.4.0```
 
 ### Adding gems
 
