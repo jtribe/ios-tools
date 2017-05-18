@@ -228,8 +228,11 @@ project to have ios-tools setup and create everything.
 
 ## Bundle Versions/Build Numbers
 
-The Build Numbers are based on git commits (see `xcode/bundle-version.sh`). You can work out the
-commit for a Build Number for a production or beta build by entering it into the following command,
+The Build Numbers are based either on CI/CD build numbers or on git commits (see `scripts/bundle-version.sh`). If a number is 
+passed into the first argument of this script, this number will be used. If no argument exists, the script will calculate it
+from the git commits (to remain backwards compatible with projects that don't pass in the CI number).
+
+You can work out the commit for a Build Number for a production or beta build by entering it into the following command,
 substituting `XXXX` for the build number:
 
 ```bash
