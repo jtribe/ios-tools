@@ -26,6 +26,11 @@ function itunes_connect() {
     --scheme "$scheme" \
     $clean_build
 
+  if [[ $build_number ]]; then
+    msg "Tagging build as $build_number"
+    git tag -a build-$build_number -m "Added by ios-tools"
+  fi
+
   msg "Submitting to iTunes Connect"
   bundle exec fastlane deliver run \
     --app_identifier "$BUNDLE_IDENTIFIER" \
