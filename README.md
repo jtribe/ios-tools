@@ -237,6 +237,24 @@ project to have ios-tools setup and create everything.
 
 ## Bundle Versions/Build Numbers
 
+All new projects should use build number generated from CI/CD as the build number in Xcode. To facilitate this, `ios-tools` provides 
+a script in `/scripts/bundle_version.sh` which accepts an optional parameter to specify the number to use. 
+
+In older projects, the git commit number was used, and this behaviour is still exhibited by the script if you omit the parameter to 
+remain backwards compatible.
+
+Most CI systems provide an environment variable that specifies the build number in progress. For instance `$CIRCLE_BUILD_NUM` or `$BUILDKITE_BUILD_NUMBER`).
+
+In Xcode, add a Run Script build phase and enter the following, substituting `$CIRCLE_BUILD_NUM` as necessary:
+```
+"$SRCROOT"/Scripts/bundle_version.sh $CIRCLE_BUILD_NUM
+```
+The CD build process should also tag a successful build before it is deployed to iTunes Connect by adding `-b $CIRCLE_BUILD_NUM` to 
+the script. This makes it easy to find log information, or checkout a specific commit after an alpha, beta or production build 
+has been sent out to anyone. To ensure this happens, the deploy script should be passed the build number in the CI steps like so:
+```
+bin/execute.sh itunes-connect --scheme=MyProject-Release-PROD -b $CIRCLE_BUILD_NUM
+```
 The Build Numbers are based either on CI/CD build numbers or on git commits (see `scripts/bundle-version.sh`). If a number is 
 passed into the first argument of this script, this number will be used. If no argument exists, the script will calculate it
 from the git commits (to remain backwards compatible with projects that don't pass in the CI number).
