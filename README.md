@@ -45,7 +45,7 @@ common tasks.
 To create a `Gemfile` use `gemrat`:
 
 ```
-gemrat --pessimistic cocoapods cocoapods-check xcpretty gym deliver match
+gemrat --pessimistic cocoapods xcpretty gym deliver match
 ```
 
 then edit the `Gemfile` to remove all the patch versions (so `1.2.3` becomes `1.2`) so that we will receive new 
