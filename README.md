@@ -42,7 +42,9 @@ common tasks.
 
 Create a `.ruby-version` file in the root of your repository with the following contents (assuming you want 2.4.0).
 
-```2.4.0```
+```
+2.4.0
+```
 
 ### Adding gems
 
