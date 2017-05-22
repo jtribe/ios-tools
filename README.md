@@ -300,8 +300,7 @@ Git as detailed above.
   - Also make sure that each Framework has its minimum deployment target set to **9.0** for Xcode 7.3.
 - If you **are not using Carthage** then make sure `Compiler Optimisation` is set to `None` in Xcode for both
 Release and Debug configurations.
-- If you're revisiting an **OLD** project, and nothing works _whatsoever_ it's because you'll need to `git
-submodule update` and `cd` into the directory then `git pull` from `master`.
+- If you're revisiting an **OLD** project, and nothing works _whatsoever_ it's because you'll need to [update ios-tools](#upgrading-ios-tools).
 
 ### Upgrading CocoaPods in a legacy project
 
