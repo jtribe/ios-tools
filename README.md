@@ -75,11 +75,14 @@ Open it up and set the variables to the appropriate values. It will look somethi
 ```sh
 export PROJECT="MyAwesomeProject" # the name of the .xcodeproj, not the repo
 # export WORKSPACE="$PROJECT.xcworkspace" # Comment this out for no workspace.
-export SCHEME_BASE="${PROJECT}"
+export SCHEME_BASE="${PROJECT}" # Change this as required
 export PROD_SCHEME="${SCHEME_BASE}-Release-PROD"
 export UNIT_TEST_SCHEME="${SCHEME_BASE}-Debug-ALPHA"
 export UI_TEST_SCHEME="${SCHEME_BASE}-UITests" # Comment this out for no UI tests
 export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3" # Used in circle.yml
+
+export ALPHA_DEPLOY_SCHEME=${SCHEME_BASE}-Release-ALPHA
+export PROD_DEPLOY_SCHEME=${SCHEME_BASE}-Release-PROD
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="ios@jtribe.com.au" # iTunes Connect User
@@ -220,6 +223,12 @@ In order for CircleCI to be able to fetch this repository (ios-tools) and access
 submodule, you will need to [add a "user
 key" to the Project Settings](https://circleci.com/docs/external-resources). Delete the existing deploy key.
 
+### Adding password to Circle CI
+
+The CI environment stores the passphrase to the match certificates repository and the iTunes store in circle 
+settings. This is to avoid the need to store them in a file that is under source control. 
+
+Before building, set `FASTLANE_PASSWORD` to the iTunes Connect password, and `MATCH_PASSWORD` to the password you set for match above.
 
 ## Usage
 Most functions are accessed using a simple scripting framework in `bin/execute.sh` that provides access
