@@ -138,7 +138,9 @@ team_id "12A345B6CD"                    # The Team ID as displayed in the Member
 itc_team_id "123456789"                 # itc_team_id can ONLY BE FOUND when CircleCI fails to login to iTunes Connect the first time. You'll see a list of teams available, and next to the name in brackets is a numerical value. Take the value you want, and use it for itc_team_id.
 ```
 - Run `bundle exec fastlane match development` to create/store/retrieve development certificates and profiles.
-- Run `bundle exec fastlane match appstore` to create/store/retrieve distribution certificates and profiles.
+- Run `bundle exec fastlane match appstore` to create/store/retrieve distribution certificates and profiles.  
+
+**Note: You will be asked to set a password for the certificates. If this is the first time a project is being setup for this organisation, create a password in 1Password, name it "{Organisation} Certificates" and use that. Otherwise, locate the already used password in 1Password and use it.**
 
 #### 5. More Information
 If you have issues and require further reading, try [here](docs/code-signing-and-cd.md).
