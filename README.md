@@ -76,11 +76,10 @@ Open it up and set the variables to the appropriate values. It will look somethi
 export PROJECT="MyAwesomeProject" # the name of the .xcodeproj, not the repo
 # export WORKSPACE="$PROJECT.xcworkspace" # Comment this out for no workspace.
 export SCHEME_BASE="${PROJECT}"
-export PROD_SCHEME="${SCHEME_BASE}-PROD"
-export UNIT_TEST_SCHEME="${SCHEME_BASE}-DEV"
+export PROD_SCHEME="${SCHEME_BASE}-Release-PROD"
+export UNIT_TEST_SCHEME="${SCHEME_BASE}-Debug-ALPHA"
 export UI_TEST_SCHEME="${SCHEME_BASE}-UITests" # Comment this out for no UI tests
-export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 6s Plus,OS=10.1"
-export SIMULATOR_NAME="iPhone 6s Plus (10.1)" # Must match $TEST_DESTINATION device/OS version
+export TEST_DESTINATION="platform=iOS Simulator,name=iPhone 7,OS=10.3" # Used in circle.yml
 
 export BUNDLE_IDENTIFIER="com.foobar.MyAwesomeProject"
 export ITC_USER="ios@jtribe.com.au" # iTunes Connect User
