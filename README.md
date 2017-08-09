@@ -257,7 +257,7 @@ Most CI systems provide an environment variable that specifies the build number 
 
 In Xcode, add a Run Script build phase and enter the following, substituting `$CIRCLE_BUILD_NUM` as necessary:
 ```
-"$SRCROOT"/Scripts/bundle_version.sh $CIRCLE_BUILD_NUM
+"$SRCROOT"/bin/scripts/bundle-version.sh $CIRCLE_BUILD_NUM
 ```
 The CD build process should also tag a successful build before it is deployed to iTunes Connect by adding `-b $CIRCLE_BUILD_NUM` to 
 the script. This makes it easy to find log information, or checkout a specific commit after an alpha, beta or production build 
