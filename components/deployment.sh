@@ -28,10 +28,10 @@ function itunes_connect() {
 
   if [[ $build_number ]]; then
     msg "Tagging build as $build_number"
-    git tag -a "build-$build_number" -m "Added by ios-tools"
+    git tag -a "$scheme ($build_number)" -m "Added by ios-tools"
     git push
   fi
-
+exit
   msg "Submitting to iTunes Connect"
   bundle exec fastlane deliver run \
     --app_identifier "$BUNDLE_IDENTIFIER" \
