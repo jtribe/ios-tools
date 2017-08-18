@@ -31,7 +31,7 @@ function itunes_connect() {
     git tag -a "$scheme-($build_number)" -m "Added by ios-tools"
     git push
   fi
-exit
+
   msg "Submitting to iTunes Connect"
   bundle exec fastlane deliver run \
     --app_identifier "$BUNDLE_IDENTIFIER" \
