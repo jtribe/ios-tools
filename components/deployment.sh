@@ -29,6 +29,7 @@ function itunes_connect() {
   if [[ $build_number ]]; then
     msg "Tagging build as $build_number"
     git tag -a "build-$build_number" -m "Added by ios-tools"
+    git push
   fi
 
   msg "Submitting to iTunes Connect"
