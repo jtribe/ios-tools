@@ -5,8 +5,8 @@ git=$(sh /etc/profile; which git)
 bundle_version=$1
 
 if [[ -z $bundle_version ]]; then
-  # If not provided as a command line argument, use the number of commits on the current branch
-  bundle_version=$($git rev-list HEAD --count)
+  # If not provided as a command line argument, use the 1
+  bundle_version=1
 fi
 
 target_plist="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
