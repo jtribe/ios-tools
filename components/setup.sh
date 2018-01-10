@@ -13,7 +13,7 @@ function setup() {
     bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
   fi
 
-  if [[ -f Matchfile ]]; then
+  if [[ -f Matchfile ]] || [[ -f fastlane/Matchfile ]]; then
     bundle exec fastlane match development --readonly $verboseArg
     bundle exec fastlane match appstore --readonly $verboseArg
   fi
@@ -27,9 +27,12 @@ function setup() {
 }
 
 function symlinkGitHooks() {
-  hooksDir="$project_dir"/.git/hooks
+  if [[ -z "$git_root" ]]; then
+    git_root="$project_dir"
+  fi
+  hooksDir="$git_root"/.git/hooks
   mkdir -p "$hooksDir"
-  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-checkout
-  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-merge
+  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-checkout.ios-tools
+  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-merge.ios-tools
 }
 

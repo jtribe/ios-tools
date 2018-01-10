@@ -45,7 +45,8 @@ function script_usage() {
 
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output
-    --configuration                 Configuration to use"
+    --configuration                 Configuration to use
+    -g|--git-root                   Specifies the path to the root of the repository (default: ./../)"
 }
 
 # Nom the parameters
@@ -88,6 +89,10 @@ function parse_params() {
       -s|--scheme)
         check_tasksel 'itunes-connect'
         scheme="$1"
+        shift
+        ;;
+      -g|--git-root)
+        git_root="$1"
         shift
         ;;
       -v|--verbose)
