@@ -32,7 +32,7 @@ function symlinkGitHooks() {
   fi
   hooksDir="$git_root"/.git/hooks
   mkdir -p "$hooksDir"
-  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-checkout.ios-tools
-  ln -fs ../../bin/git-hooks/submodule-update "$hooksDir"/post-merge.ios-tools
+  ln -fs "$project_dir"/bin/git-hooks/submodule-update "$hooksDir"/post-checkout.ios-tools
+  ln -fs "$project_dir"/bin/git-hooks/submodule-update "$hooksDir"/post-merge.ios-tools
 }
 
