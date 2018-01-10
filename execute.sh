@@ -46,7 +46,7 @@ function script_usage() {
   Common options:
     -nc|--no-colour                 Disable usage of coloured script status output
     --configuration                 Configuration to use
-    -g|--git-root                   Specifies the path to the root of the repository (default: ./../)"
+    -g|--git-root                   Specifies the path to the root of the repository (default: current directory)"
 }
 
 # Nom the parameters
