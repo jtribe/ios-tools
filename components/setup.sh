@@ -5,10 +5,12 @@ function setup() {
     verboseArg='--verbose'
   fi
 
-  if [[ -z $no_pods ]]; then
+  if [[ -z $no_bundler ]]; then
     # This is the bundle command that circle uses 
     bundle check || bundle install --jobs 4 --retry 3
+  fi
 
+  if [[ -z $no_pods ]]; then
     # pod install may take 25 mins on circle if it has to download the master spec repo             
     bundle exec pod install $verboseArg || bundle exec pod install --repo-update $verboseArg
   fi
